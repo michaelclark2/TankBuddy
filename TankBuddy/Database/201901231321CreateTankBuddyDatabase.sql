@@ -29,7 +29,8 @@ CREATE TABLE [Filter]
 (
 	[Id] int PRIMARY KEY IDENTITY(1,1),
 	[Name] varchar(255),
-	[Volume] int,
+	[FlowRate] int,
+	[Undergravel] bit,
 	[External] bit,
 	[TankId] int
 );
