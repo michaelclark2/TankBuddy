@@ -30,8 +30,7 @@ CREATE TABLE [Filter]
 	[Id] int PRIMARY KEY IDENTITY(1,1),
 	[Name] varchar(255),
 	[FlowRate] int,
-	[Undergravel] bit,
-	[External] bit,
+	[Type] varchar(50),
 	[TankId] int
 );
 
