@@ -12,19 +12,19 @@ namespace TankBuddy.Controllers
     public class FiltersController : ControllerBase
     {
 
-        [HttpPost("/add")]
+        [HttpPost("add")]
         public IActionResult NewFilter([FromBody] object filter)
         {
             throw new NotImplementedException();
         }
 
-        [HttpPut("/edit")]
+        [HttpPut("edit")]
         public IActionResult EditFilter([FromBody] object filter)
         {
             throw new NotImplementedException();
         }
 
-        [HttpDelete("/{id}")]
+        [HttpDelete("{id}")]
         public IActionResult DeleteFilter(int id)
         {
             throw new NotImplementedException();

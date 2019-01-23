@@ -12,25 +12,25 @@ namespace TankBuddy.Controllers
     public class FishController : ControllerBase
     {
 
-        [HttpGet("/search")]
+        [HttpGet("search")]
         public IActionResult FindFish([FromQuery] string terms)
         {
             throw new NotImplementedException();
         }
 
-        [HttpPost("/add")]
+        [HttpPost("add")]
         public IActionResult NewFish([FromBody] object fish)
         {
             throw new NotImplementedException();
         }
 
-        [HttpPut("/edit")]
+        [HttpPut("edit")]
         public IActionResult EditFish([FromBody] object fish)
         {
             throw new NotImplementedException();
         }
 
-        [HttpDelete("/{id}")]
+        [HttpDelete("{id}")]
         public IActionResult DeleteFish(int id)
         {
             throw new NotImplementedException();

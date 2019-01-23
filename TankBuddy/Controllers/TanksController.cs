@@ -18,25 +18,25 @@ namespace TankBuddy.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpPost("/add")]
+        [HttpPost("add")]
         public IActionResult NewTank([FromBody] object tank)
         {
             throw new NotImplementedException();
         }
 
-        [HttpPut("/edit")]
+        [HttpPut("edit")]
         public IActionResult EditTank([FromBody] object tank)
         {
             throw new NotImplementedException();
         }
 
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public IActionResult GetTankById(int id)
         {
             throw new NotImplementedException();
         }
 
-        [HttpDelete("/{id}")]
+        [HttpDelete("{id}")]
         public IActionResult DeleteTank(int id)
         {
             throw new NotImplementedException();

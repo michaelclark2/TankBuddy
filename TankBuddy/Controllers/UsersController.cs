@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,13 +12,13 @@ namespace TankBuddy.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        [HttpGet("/login")]
+        [HttpGet("login")]
         public IActionResult Login()
         {
-            throw new NotImplementedException();
+            return Ok(User);
         }
 
-        [HttpPost("/register")]
+        [HttpPost("register")]
         public IActionResult Register([FromBody] object user)
         {
             throw new NotImplementedException();
