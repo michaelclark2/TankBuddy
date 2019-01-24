@@ -1,16 +1,40 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet, AsyncStorage } from 'react-native';
+
+import {logoutUser} from '../api/firebase';
+import {authenticate} from '../api/auth';
 
 export default class HomeScreen extends React.Component {
+  state = {
+    user: {}
+  }
   static navigationOptions = {
     title: "Home"
   }
+  componentDidMount () {
+    this.authenticateUser()
+  }
+  authenticateUser = () => {
+    AsyncStorage.getItem('token')
+      .then(token => {
+        console.log(token)
+        authenticate(token)
+          .then(user => {
+            console.log(user);
+            this.setState({user})
+          }).catch(console.error)
 
+      });
+  }
+  logout = () => {
+    logoutUser();
+  }
   render () {
     return (
       <View style={styles.container}>
         <Text>Hello World!</Text>
-        <Button title="Aye" onPress={() => this.props.navigation.push("Other")} />
+        <Text>Username: {this.state.user.name}</Text>
+        <Button title="Aye" onPress={() => this.logout()} />
       </View>
     )
   }

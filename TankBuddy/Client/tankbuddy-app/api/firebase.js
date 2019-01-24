@@ -9,5 +9,9 @@ const loginUser = (user) => {
   return firebase.auth().signInWithEmailAndPassword(user.email, user.password);
 };
 
-export {loginUser};
+const logoutUser = () => {
+  return firebase.auth().signOut();
+}
+
+export { loginUser, logoutUser };
 

@@ -6,18 +6,8 @@ import AuthLoadingScreen from './screens/AuthLoadingScreen';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 
-class OtherScreen extends React.Component {
-  render () {
-    return (
-      <View style={styles.container}>
-        <Text>Wowee!</Text>
-      </View>
-    )
-  }
-}
 const AppStack = createStackNavigator({
   Home: HomeScreen,
-  Other: OtherScreen
 },
 {
   initialRouteName: "Home",
@@ -48,8 +38,14 @@ const AppNav = createAppContainer(createSwitchNavigator(
 
 
 export default class App extends React.Component {
+  state = {
+    user: {}
+  }
+  setUser = (user) => {
+    this.setState({user});
+  }
   render() {
-    return <AppNav/>
+    return <AppNav setUser={this.setUser}/>
   }
 }
 
