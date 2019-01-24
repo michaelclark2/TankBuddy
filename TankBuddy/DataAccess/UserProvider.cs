@@ -24,5 +24,15 @@ namespace TankBuddy.DataAccess
                 return db.QueryFirstOrDefault<User>(sql, new { uid });
             }
         }
+
+        public User AddUser(User user)
+        {
+            using (var db = _db.GetConnection())
+            {
+                string sql = "INSERT INTO [User] OUTPUT INSERTED.* VALUES (@name, @uid, @metric)";
+                return db.QueryFirstOrDefault<User>(sql, user);
+                
+            }
+        }
     }
 }

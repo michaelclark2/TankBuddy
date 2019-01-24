@@ -10,6 +10,6 @@ namespace TankBuddy.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Uid { get; set; }
-        public bool Metric { get; set; }
+        public bool Metric { get; set; } = true;
     }
 }

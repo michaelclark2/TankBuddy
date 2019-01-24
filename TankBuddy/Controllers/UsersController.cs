@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using TankBuddy.DataAccess;
+using TankBuddy.Models;
 
 namespace TankBuddy.Controllers
 {
@@ -37,10 +38,21 @@ namespace TankBuddy.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpPost("register")]
-        public IActionResult Register([FromBody] object user)
+        public IActionResult Register([FromBody] User user)
         {
-            throw new NotImplementedException();
+            var newUser = _users.AddUser(user);
+
+            if (newUser != null)
+            {
+                return Ok(newUser);
+            }
+            else
+            {
+                return BadRequest(new { Message = "The user could not be added" });
+            }
+            
         }
     }
 }
