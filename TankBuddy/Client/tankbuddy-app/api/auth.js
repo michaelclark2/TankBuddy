@@ -1,12 +1,19 @@
 import constants from '../constants';
-import {AsyncStorage} from 'react-native';
 
 const makeHeader = (token) => {
-  return {Authorization: 'Bearer ' + token};
+  return {
+    "Authorization": 'Bearer ' + token,
+    "Content-Type": "application/json"
+  };
 }
-
 const authenticate = async (token) => {
-  return await fetch(constants.backendUrl + 'users/login', {headers: makeHeader(token)}).then(res => res.json());
+  try {
+    let res = await fetch(constants.backendUrl + 'users/login', {headers: makeHeader(token), method: 'GET'});
+    let user = await res.json();
+    return user;
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export {authenticate}
