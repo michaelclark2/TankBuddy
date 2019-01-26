@@ -59,7 +59,7 @@ namespace TankBuddy
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseCors(builder =>
             {

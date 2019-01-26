@@ -17,10 +17,8 @@ export default class HomeScreen extends React.Component {
   authenticateUser = () => {
     AsyncStorage.getItem('token')
       .then(token => {
-        console.log(token)
         authenticate(token)
           .then(user => {
-            console.log(user);
             this.setState({user})
           }).catch(console.error)
 

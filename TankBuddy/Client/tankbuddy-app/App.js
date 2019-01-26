@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation';
 
 import AuthLoadingScreen from './screens/AuthLoadingScreen';
@@ -38,22 +37,7 @@ const AppNav = createAppContainer(createSwitchNavigator(
 
 
 export default class App extends React.Component {
-  state = {
-    user: {}
-  }
-  setUser = (user) => {
-    this.setState({user});
-  }
   render() {
-    return <AppNav setUser={this.setUser}/>
+    return <AppNav />
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
