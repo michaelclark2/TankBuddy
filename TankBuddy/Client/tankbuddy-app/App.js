@@ -4,6 +4,7 @@ import { createStackNavigator, createAppContainer, createSwitchNavigator } from 
 import AuthLoadingScreen from './screens/AuthLoadingScreen';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
 
 const AppStack = createStackNavigator({
   Home: HomeScreen,
@@ -19,7 +20,8 @@ const AppStack = createStackNavigator({
 });
 
 const AuthStack = createStackNavigator({
-  Login: LoginScreen
+  Login: LoginScreen,
+  Register: RegisterScreen,
 },
 {
   initialRouteName: 'Login'

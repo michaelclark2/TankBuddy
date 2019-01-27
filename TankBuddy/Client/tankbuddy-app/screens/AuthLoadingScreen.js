@@ -1,6 +1,6 @@
 import React from 'react';
 import firebase from '../api/firebase';
-import { View, Text, StyleSheet, AsyncStorage } from 'react-native';
+import { View, Text, StyleSheet, AsyncStorage, ActivityIndicator } from 'react-native';
 
 export default class AuthLoadingScreen extends React.Component {
   static navigationOptions = {
@@ -32,7 +32,7 @@ export default class AuthLoadingScreen extends React.Component {
   render () {
     return (
       <View style={styles.container}>
-        <Text>Checking login status....</Text>
+        <ActivityIndicator />
       </View>
     )
   }

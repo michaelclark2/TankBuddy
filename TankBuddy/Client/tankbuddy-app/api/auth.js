@@ -10,4 +10,8 @@ const authenticate = async (token) => {
   return await fetch(constants.backendUrl + 'users/login', {headers: makeHeader(token)}).then(res => res.json());
 }
 
-export {authenticate}
+const addUser = async (user) => {
+  return await fetch(constants.backendUrl + 'users/register', { headers: {'Content-Type': 'application/json'}, method: 'POST', body: JSON.stringify(user)}).then(res => res.json());
+}
+
+export {authenticate, addUser};
