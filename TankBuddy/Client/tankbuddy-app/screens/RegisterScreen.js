@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
   },
   registerForm: {
     width: '100%',
+    padding: 16,
     justifyContent: 'space-between',
     alignItems: 'center'
   },

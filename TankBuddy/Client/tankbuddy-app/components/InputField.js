@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
     elevation: 2,
     fontSize: 24,
-    width: '90%',
+    width: '100%',
     padding: 8,
     margin: 8
   }

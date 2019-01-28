@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
   },
   loginForm: {
     width: '100%',
+    padding: 16,
     justifyContent: 'space-between',
     alignItems: 'center'
   },
