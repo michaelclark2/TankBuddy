@@ -24,7 +24,7 @@ export default class HomeScreen extends React.Component {
       return (
         <View>
           <Text>Add a tank to get started!</Text>
-          <Button title="Add New Tank" onPress={() => this.props.navigation.push('AddTank', {userId: this.state.user.id})} />
+          <Button title="Add New Tank" onPress={() => this.props.navigation.push('AddTank', {user: this.state.user})} />
         </View>
       )
     }
