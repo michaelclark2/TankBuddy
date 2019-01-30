@@ -8,9 +8,11 @@ export default class InputField extends React.Component {
 
     if (isNumber) {
       input = input.replace(/[^0-9.]/g, '');
+      // split on decimal
       let splitInput = input.split('.');
+      // only allow one decimal at end of first string.  then only allow two digits.
       input = splitInput.shift() + (splitInput.length ? '.' + splitInput[0].slice(0, 2) : '');
-      console.log(typeof input)
+      input *= 1;
     }
 
     this.props.onChangeText(input);

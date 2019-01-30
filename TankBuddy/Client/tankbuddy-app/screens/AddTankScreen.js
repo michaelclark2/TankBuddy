@@ -7,8 +7,8 @@ import {
   ImageBackground,
   KeyboardAvoidingView,
 } from 'react-native';
-import InputField from '../components/InputField';
 
+import InputField from '../components/InputField';
 
 export default class AddTankScreen extends React.Component {
 
@@ -29,27 +29,45 @@ export default class AddTankScreen extends React.Component {
   static navigationOptions = {
     title: "Add Tank"
   }
+
+  isValid = () => {
+    const {tank} = this.state;
+    return tank.name !== ''
+    && tank.width
+    && tank.length
+    && tank.depth
+    && tank.temp
+    && tank.pH
+    && tank.dH
+  }
+
   changeFormView = () => {
     const {tank} = this.state;
     if (tank.width && tank.length && tank.depth && tank.name) {
-      this.setState({toggleDimensions: false})
+      this.setState({toggleDimensions: false, isError: false})
     }
     else {
       this.setState({isError: true, error: "All fields required"})
     }
   }
-  changeInput = (input, key, isString = false) => {
+
+  changeInput = (input, key) => {
     const {tank} = {...this.state};
     tank[key] = input;
-    if (isString) {
-    }
-    // else if (input contains '.') {
-    // }
-    else {
-      // tank[key] = input * 1;
-    }
-
     this.setState({tank})
+  }
+
+  postTank = () => {
+    const {tank} = this.state;
+    console.log(tank);
+  }
+
+  showError = () => {
+    const {error, isError} = this.state;
+    if (isError) {
+      return <Text style={styles.error}>{error}</Text>
+    }
+    return null
   }
 
   render () {
@@ -73,20 +91,34 @@ export default class AddTankScreen extends React.Component {
                 <View style={styles.depthSection}>
                   <InputField style={{width: '50%'}} placeholder="Depth" isNumber={true} onChangeText={(depth) => this.changeInput(depth, 'depth')} value={tank.depth > 0 ? tank.depth.toString() : ''} keyboardType="number-pad" />
                 </View>
-                <Button title="Enter Water Conditions" onPress={this.changeFormView}/>
+                <View style={styles.nextSection}>
+                  {
+                    tank.name.length && tank.width && tank.length && tank.depth ? (
+                      <Button title="Enter Water Conditions" onPress={this.changeFormView} />
+                    ): null
+                  }
+                </View>
               </ImageBackground>
             ) : (
-              <View style={styles.nameField}>
+              <View style={styles.waterSection}>
                 <Text style={styles.sectionHeader}>Water Conditions</Text>
                 <InputField placeholder="Temperature" isNumber={true} onChangeText={(temp) => this.changeInput(temp, 'temp')} value={tank.temp > 0 ? tank.temp.toString() : ''} keyboardType="number-pad" />
                 <InputField placeholder="pH" isNumber={true} onChangeText={(pH) => this.changeInput(pH, 'pH')} value={tank.pH > 0 ? tank.pH.toString() : ''} keyboardType="number-pad" />
                 <InputField placeholder="Hardness" isNumber={true} onChangeText={(dH) => this.changeInput(dH, 'dH')} value={tank.dH > 0 ? tank.dH.toString() : ''} keyboardType="number-pad" />
-                <Button title="Enter Dimensions" onPress={() => this.setState({toggleDimensions: true})} />
+                <View style={{flex: 1}} />
+                <View style={styles.endSection}>
+                  <Button title="Back" onPress={() => this.setState({toggleDimensions: true})} />
+
+                  {
+                    this.isValid() ? (
+                      <Button title="Add Filter" onPress={this.postTank} />
+                    ) : null
+                  }
+                </View>
               </View>
             )
           }
         </KeyboardAvoidingView>
-
       </View>
     );
   }
@@ -116,12 +148,34 @@ const styles = StyleSheet.create({
     padding: 8
   },
   depthSection: {
-    flex: 1,
+    flex: 2,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },
   dimensionField: {
     flex: 1,
+  },
+  nextSection: {
+    flex: 1,
+    justifyContent: 'space-evenly'
+  },
+  waterSection: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    padding: 16
+  },
+  endSection: {
+    width: '50%',
+    flex: 1,
+    justifyContent: 'space-evenly'
+  },
+  error: {
+    textAlign: 'center',
+    backgroundColor: '#ce5040',
+    padding: 8,
+    borderRadius: 3,
+    position: 'relative'
   }
 })
