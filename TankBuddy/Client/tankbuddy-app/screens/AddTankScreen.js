@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import InputField from '../components/InputField';
+import { postTank } from '../api/tanks';
 
 export default class AddTankScreen extends React.Component {
 
@@ -60,6 +61,7 @@ export default class AddTankScreen extends React.Component {
   postTank = () => {
     const {tank} = this.state;
     console.log(tank);
+    postTank(tank);
   }
 
   showError = () => {

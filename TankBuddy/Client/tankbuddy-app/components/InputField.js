@@ -7,12 +7,15 @@ export default class InputField extends React.Component {
     const {isNumber} = this.props;
 
     if (isNumber) {
-      input = input.replace(/[^0-9.]/g, '');
+      input = input.replace(/[^\d.]/g, '');
       // split on decimal
       let splitInput = input.split('.');
       // only allow one decimal at end of first string.  then only allow two digits.
       input = splitInput.shift() + (splitInput.length ? '.' + splitInput[0].slice(0, 2) : '');
-      input *= 1;
+
+      if (input[input.length - 1] !== '.') {
+        input *= 1;
+      }
     }
 
     this.props.onChangeText(input);
