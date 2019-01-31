@@ -1,6 +1,8 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import { Text } from 'react-native-elements';
+import {StyleSheet, View, Picker} from 'react-native';
+import { Card, Text, Button, Slider } from 'react-native-elements';
+import InputField from '../components/InputField';
+import { getTanks } from '../api/tanks';
 
 export default class AddFishScreen extends React.Component {
   static navigationOptions = {
@@ -8,14 +10,82 @@ export default class AddFishScreen extends React.Component {
   }
 
   state = {
-    fish: {}
+    usersTanks: [],
+    selectedTank: {},
+    fish: {
+      name: '',
+      sex: 0,
+      tankId: 0,
+      speciesId: 0
+    }
+  }
+
+  componentDidMount() {
+    this.getUserTanks();
+  }
+
+  getUserTanks = () => {
+    getTanks()
+      .then(usersTanks => {
+        this.setState({usersTanks})
+      });
+  }
+
+  changeInput = (input, key) => {
+    const {fish} = {...this.state};
+    fish[key] = input;
+    this.setState({fish});
+  }
+
+  changeTank = (selectedTank) => {
+    if (selectedTank !== 0) {
+      const {fish} = {...this.state};
+      fish.tankId = selectedTank.id;
+      this.setState({fish, selectedTank});
+    }
   }
 
   render () {
+    const {fish, usersTanks, selectedTank} = this.state;
     return (
-      <View>
-        <Text h1>Adda Fish!?</Text>
+      <View style={{flex: 1}}>
+        <Card title="Name" wrapperStyle={styles.centered}>
+          <InputField onChangeText={(name) => this.changeInput(name, 'name')} value={fish.name} />
+        </Card>
+        <Card title="Species" wrapperStyle={styles.centered}>
+          <Button title="Find Species" onPress={() => console.log('clicky')} />
+        </Card>
+        <Card title="Sex" wrapperStyle={styles.centered}>
+          <View style={styles.sexSlider}>
+            <Text style={{flex: 1, textAlign: 'center'}} >Male</Text>
+            <Slider style={{flex: 1}} value={fish.sex} maximumValue={1} step={1}/>
+            <Text style={{flex: 1, textAlign: 'center'}}>Female</Text>
+          </View>
+        </Card>
+        <Card title="Selected Tank" wrapperStyle={styles.centered}>
+          <Picker style={{width: '100%'}} selectedValue={selectedTank} onValueChange={(selectedTank) => this.changeTank(selectedTank)}>
+            {
+              selectedTank.id ? (
+                // map users tanks except selected one, then map null Picker.Item to selectedTank
+                usersTanks.map(tank => tank.id !== selectedTank.id ? <Picker.Item key={tank.id} value={tank} label={tank.name}/> : null)
+                  .map(x => x === null ? <Picker.Item key={selectedTank.id} value={selectedTank} label={selectedTank.name}/> : x)
+              ) : (
+                [<Picker.Item key={0} value={0} label="Choose a tank" />, usersTanks.map(tank => <Picker.Item key={tank.id} value={tank} label={tank.name}/>)]
+              )
+            }
+          </Picker>
+        </Card>
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  centered: {
+    alignItems: 'center'
+  },
+  sexSlider: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  }
+})
