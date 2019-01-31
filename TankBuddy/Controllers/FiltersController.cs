@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using TankBuddy.DataAccess;
+using TankBuddy.Models;
 
 namespace TankBuddy.Controllers
 {
@@ -12,11 +15,27 @@ namespace TankBuddy.Controllers
     [Authorize, ApiController]
     public class FiltersController : ControllerBase
     {
+        private FilterProvider _filters;
+
+        public FiltersController(IConfiguration config)
+        {
+            var db = new DatabaseConnection(config, "TankBuddy");
+            _filters = new FilterProvider(db);
+        }
 
         [HttpPost("add")]
-        public IActionResult NewFilter([FromBody] object filter)
+        public IActionResult NewFilter([FromBody] Filter filter)
         {
-            throw new NotImplementedException();
+            bool success = _filters.AddFilter(filter);
+
+            if (success)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPut("edit")]
