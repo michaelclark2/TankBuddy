@@ -5,9 +5,11 @@ import AuthLoadingScreen from './screens/AuthLoadingScreen';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
+import AddTankScreen from './screens/AddTankScreen';
 
 const AppStack = createStackNavigator({
   Home: HomeScreen,
+  AddTank: AddTankScreen,
 },
 {
   initialRouteName: "Home",

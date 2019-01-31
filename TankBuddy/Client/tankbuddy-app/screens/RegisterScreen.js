@@ -4,8 +4,6 @@ import {
   Text,
   Button,
   StyleSheet,
-  TextInput,
-  Switch,
   KeyboardAvoidingView,
   TouchableOpacity
 } from 'react-native';
@@ -13,6 +11,7 @@ import {
 import {registerUser} from '../api/firebase';
 import BrandTitle from '../components/BrandTitle';
 import { addUser } from '../api/auth';
+import InputField from '../components/InputField';
 
 export default class RegisterScreen extends React.Component {
   static navigationOptions = {
@@ -82,9 +81,9 @@ export default class RegisterScreen extends React.Component {
         <BrandTitle />
         <View style={styles.registerForm}>
           { this.showError() }
-          <TextInput style={styles.registerInput} placeholder="Email" onChangeText={this.changeEmail} value={this.state.user.email} keyboardType="email-address"/>
-          <TextInput style={styles.registerInput} placeholder="Name" onChangeText={this.changeName} value={this.state.user.name} />
-          <TextInput style={styles.registerInput} placeholder="Password" onChangeText={this.changePass} textContentType="password" secureTextEntry={true} onSubmitEditing={this.login}/>
+          <InputField placeholder="Email" onChangeText={this.changeEmail} value={this.state.user.email} keyboardType="email-address"/>
+          <InputField placeholder="Name" onChangeText={this.changeName} value={this.state.user.name} />
+          <InputField placeholder="Password" onChangeText={this.changePass} textContentType="password" secureTextEntry={true} onSubmitEditing={this.login}/>
           <Button title="Register" onPress={this.register} />
           <TouchableOpacity style={styles.loginLink} onPress={this.goToLogin}>
             <Text>Already have an account?</Text>
@@ -104,18 +103,9 @@ const styles = StyleSheet.create({
   },
   registerForm: {
     width: '100%',
+    padding: 16,
     justifyContent: 'space-between',
     alignItems: 'center'
-  },
-  registerInput: {
-    textAlign: 'center',
-    borderRadius: 50,
-    backgroundColor: '#eee',
-    elevation: 2,
-    fontSize: 24,
-    width: '90%',
-    padding: 8,
-    margin: 8
   },
   loginLink: {
     padding: 8

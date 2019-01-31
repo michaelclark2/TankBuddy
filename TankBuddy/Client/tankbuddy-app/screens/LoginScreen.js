@@ -4,13 +4,13 @@ import {
   Text,
   Button,
   StyleSheet,
-  TextInput,
   KeyboardAvoidingView,
   TouchableOpacity
 } from 'react-native';
 
 import {loginUser} from '../api/firebase';
 import BrandTitle from '../components/BrandTitle';
+import InputField from '../components/InputField';
 
 export default class LoginScreen extends React.Component {
   static navigationOptions = {
@@ -62,8 +62,8 @@ export default class LoginScreen extends React.Component {
         <BrandTitle />
         <View style={styles.loginForm}>
           { this.showError() }
-          <TextInput style={styles.loginInput} placeholder="Email" onChangeText={this.changeEmail} value={this.state.user.email} keyboardType="email-address"/>
-          <TextInput style={styles.loginInput} placeholder="Password" onChangeText={this.changePass} textContentType="password" secureTextEntry={true} onSubmitEditing={this.login}/>
+          <InputField placeholder="Email" onChangeText={this.changeEmail} value={this.state.user.email} keyboardType="email-address" />
+          <InputField placeholder="Password" onChangeText={this.changePass} textContentType="password" secureTextEntry={true} onSubmitEditing={this.login}/>
           <Button title="Login" onPress={this.login} />
           <TouchableOpacity style={styles.registerLink} onPress={this.goToSignUp}>
             <Text>Don't have an account?</Text>
@@ -83,18 +83,9 @@ const styles = StyleSheet.create({
   },
   loginForm: {
     width: '100%',
+    padding: 16,
     justifyContent: 'space-between',
     alignItems: 'center'
-  },
-  loginInput: {
-    textAlign: 'center',
-    borderRadius: 50,
-    backgroundColor: '#eee',
-    elevation: 2,
-    fontSize: 24,
-    width: '90%',
-    padding: 8,
-    margin: 8
   },
   registerLink: {
     padding: 8
