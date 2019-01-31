@@ -8,6 +8,8 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 
+import { NavigationActions } from 'react-navigation';
+
 import InputField from '../components/InputField';
 import { postTank } from '../api/tanks';
 
@@ -62,8 +64,8 @@ export default class AddTankScreen extends React.Component {
     const {tank} = this.state;
     console.log(tank);
     postTank(tank)
-      .then(() => {
-        this.props.navigation.navigate('Home');
+      .then(newTank => {
+        this.props.navigation.replace('AddFilter', {selectedTank: newTank});
       }).catch(console.error);
   }
 
@@ -74,7 +76,6 @@ export default class AddTankScreen extends React.Component {
     }
     return null
   }
-
   render () {
     const {tank} = this.state;
     const user = this.props.navigation.getParam('user');

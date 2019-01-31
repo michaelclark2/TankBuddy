@@ -16,12 +16,12 @@ namespace TankBuddy.DataAccess
             _db = db;
         }
 
-        public bool AddTank(Tank tank)
+        public Tank AddTank(Tank tank)
         {
             using (var db = _db.GetConnection())
             {
-                string sql = "INSERT INTO Tank VALUES (@name, @userId, @length, @width, @depth, @pH, @temp, @dH)";
-                return db.Execute(sql, tank) == 1;
+                string sql = "INSERT INTO Tank OUTPUT INSERTED.* VALUES (@name, @userId, @length, @width, @depth, @pH, @temp, @dH)";
+                return db.QueryFirstOrDefault<Tank>(sql, tank);
             }
         }
     }

@@ -32,11 +32,11 @@ namespace TankBuddy.Controllers
         [HttpPost("add")]
         public IActionResult NewTank([FromBody] Tank tank)
         {
-            var success = _tanks.AddTank(tank);
+            var insertedTank = _tanks.AddTank(tank);
             
-            if (success)
+            if (insertedTank != null)
             {
-                return Ok();
+                return Ok(insertedTank);
             } 
             else
             {
