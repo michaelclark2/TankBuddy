@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet, AsyncStorage } from 'react-native';
+import { View, StyleSheet, AsyncStorage } from 'react-native';
+import {Button, Text} from 'react-native-elements';
 
 import {logoutUser} from '../api/firebase';
 import {authenticate} from '../api/auth';

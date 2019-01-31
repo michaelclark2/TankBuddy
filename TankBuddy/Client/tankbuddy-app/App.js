@@ -1,5 +1,6 @@
 import React from 'react';
 import { createStackNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation';
+import {ThemeProvider} from 'react-native-elements';
 
 import AuthLoadingScreen from './screens/AuthLoadingScreen';
 import HomeScreen from './screens/HomeScreen';
@@ -41,9 +42,16 @@ const AppNav = createAppContainer(createSwitchNavigator(
     initialRouteName: 'AuthLoading'
   }));
 
+const theme = {
+
+}
 
 export default class App extends React.Component {
   render() {
-    return <AppNav />
+    return (
+      <ThemeProvider theme={theme}>
+        <AppNav />
+      </ThemeProvider>
+    )
   }
 }
