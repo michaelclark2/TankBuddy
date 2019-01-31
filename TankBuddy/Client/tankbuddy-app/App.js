@@ -8,11 +8,13 @@ import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import AddTankScreen from './screens/AddTankScreen';
 import AddFilterScreen from './screens/AddFilterScreen';
+import AddFishScreen from './screens/AddFishScreen';
 
 const AppStack = createStackNavigator({
   Home: HomeScreen,
   AddTank: AddTankScreen,
-  AddFilter: AddFilterScreen
+  AddFilter: AddFilterScreen,
+  AddFish: AddFishScreen
 },
 {
   initialRouteName: "Home",
