@@ -21,7 +21,10 @@ export default class InputField extends React.Component {
     this.props.onChangeText(input);
   }
   render () {
-    return <TextInput {...this.props} onChangeText={this.change} style={{...styles.input, ...this.props.style}} />
+    const {isNumber} = this.props;
+    const keyboard = isNumber ? 'number-pad': this.props.keyboardType || 'default';
+
+    return <TextInput {...this.props} onChangeText={this.change} style={{...styles.input, ...this.props.style}} keyboardType={keyboard} />
   }
 }
 

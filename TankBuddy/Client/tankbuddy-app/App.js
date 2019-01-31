@@ -1,15 +1,18 @@
 import React from 'react';
 import { createStackNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation';
+import {ThemeProvider} from 'react-native-elements';
 
 import AuthLoadingScreen from './screens/AuthLoadingScreen';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import AddTankScreen from './screens/AddTankScreen';
+import AddFilterScreen from './screens/AddFilterScreen';
 
 const AppStack = createStackNavigator({
   Home: HomeScreen,
   AddTank: AddTankScreen,
+  AddFilter: AddFilterScreen
 },
 {
   initialRouteName: "Home",
@@ -39,9 +42,23 @@ const AppNav = createAppContainer(createSwitchNavigator(
     initialRouteName: 'AuthLoading'
   }));
 
+const theme = {
+  Card: {
+    titleStyle: {
+      marginBottom: 0
+    },
+    dividerStyle: {
+      display: 'none'
+    }
+  }
+}
 
 export default class App extends React.Component {
   render() {
-    return <AppNav />
+    return (
+      <ThemeProvider theme={theme}>
+        <AppNav />
+      </ThemeProvider>
+    )
   }
 }

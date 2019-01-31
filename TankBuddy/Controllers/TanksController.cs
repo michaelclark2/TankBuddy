@@ -26,17 +26,26 @@ namespace TankBuddy.Controllers
         [HttpGet]
         public IActionResult GetTanks()
         {
-            throw new NotImplementedException();
+            string uid = User.FindFirst("user_id").Value;
+            var tanks = _tanks.GetTanksByUid(uid);
+            if (tanks != null || tanks.Count > 0)
+            {
+                return Ok(tanks);
+            }
+            else
+            {
+                return NoContent();
+            }
         }
 
         [HttpPost("add")]
         public IActionResult NewTank([FromBody] Tank tank)
         {
-            var success = _tanks.AddTank(tank);
+            var insertedTank = _tanks.AddTank(tank);
             
-            if (success)
+            if (insertedTank != null)
             {
-                return Ok();
+                return Ok(insertedTank);
             } 
             else
             {
