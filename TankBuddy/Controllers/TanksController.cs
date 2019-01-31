@@ -26,7 +26,16 @@ namespace TankBuddy.Controllers
         [HttpGet]
         public IActionResult GetTanks()
         {
-            throw new NotImplementedException();
+            string uid = User.FindFirst("user_id").Value;
+            var tanks = _tanks.GetTanksByUid(uid);
+            if (tanks != null || tanks.Count > 0)
+            {
+                return Ok(tanks);
+            }
+            else
+            {
+                return NoContent();
+            }
         }
 
         [HttpPost("add")]

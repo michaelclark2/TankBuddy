@@ -24,5 +24,16 @@ namespace TankBuddy.DataAccess
                 return db.QueryFirstOrDefault<Tank>(sql, tank);
             }
         }
+
+        public List<Tank> GetTanksByUid(string uid)
+        {
+            
+            using (var db = _db.GetConnection())
+            {
+                string sql = "SELECT t.* FROM Tank t JOIN [User] u ON u.Id = t.UserId WHERE u.Uid = @uid";
+                return db.Query<Tank>(sql, new { uid }).ToList();
+            }
+            
+        }
     }
 }

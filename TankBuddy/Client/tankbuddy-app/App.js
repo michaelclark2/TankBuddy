@@ -43,7 +43,14 @@ const AppNav = createAppContainer(createSwitchNavigator(
   }));
 
 const theme = {
-
+  Card: {
+    titleStyle: {
+      marginBottom: 0
+    },
+    dividerStyle: {
+      display: 'none'
+    }
+  }
 }
 
 export default class App extends React.Component {
