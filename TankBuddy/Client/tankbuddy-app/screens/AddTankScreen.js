@@ -61,7 +61,10 @@ export default class AddTankScreen extends React.Component {
   postTank = () => {
     const {tank} = this.state;
     console.log(tank);
-    postTank(tank);
+    postTank(tank)
+      .then(() => {
+        this.props.navigation.navigate('Home');
+      }).catch(console.error);
   }
 
   showError = () => {
