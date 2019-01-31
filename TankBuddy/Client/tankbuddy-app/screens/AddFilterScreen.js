@@ -4,6 +4,7 @@ import {Text, Card, Button} from 'react-native-elements';
 import InputField from '../components/InputField';
 
 import { getTanks } from '../api/tanks';
+import { postFilter } from '../api/filters';
 
 export default class AddFilterScreen extends React.Component {
   static navigationOptions = {
@@ -45,7 +46,7 @@ export default class AddFilterScreen extends React.Component {
   }
 
   calculateVolume = () => {
-    const {filter, selectedTank} = this.state;
+    const {selectedTank} = this.state;
 
     const cubicCm = selectedTank.width * selectedTank.length * selectedTank.depth;
 
@@ -65,9 +66,12 @@ export default class AddFilterScreen extends React.Component {
     && filter.type !== '';
   }
 
-  postFilter = () => {
+  addFilter = () => {
     const {filter} = this.state;
-    console.log(filter);
+    postFilter(filter)
+      .then(() => {
+        this.props.navigation.popToTop();
+      })
   }
 
   render () {
@@ -109,7 +113,7 @@ export default class AddFilterScreen extends React.Component {
         {
           this.isValidFilter() ? (
             <View style={{justifyContent: 'center', flex: 1, padding: 16}}>
-              <Button title="Add Filter" onPress={this.postFilter} />
+              <Button title="Add Filter" onPress={this.addFilter} />
             </View>
           ) : null
         }
