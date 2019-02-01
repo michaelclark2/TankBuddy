@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, FlatList} from 'react-native';
+import {View, FlatList, Keyboard} from 'react-native';
 import {Text, SearchBar, ListItem} from 'react-native-elements';
 import { searchSpecies } from '../api/fish';
 
@@ -43,28 +43,31 @@ export default class SearchSpecies extends React.Component {
     })
   }
 
-  renderFish = ({item}) => (
-    <ListItem
+  renderFish = ({item}) => {
+    const {selectSpecies} = this.props;
+    return <ListItem
       bottomDivider
       chevron
       key={item.id}
       title={item.scientificName}
       subtitle={item.commonName}
+      onPress={() => selectSpecies(item)}
 
     />
-  )
+  }
   render () {
     const {searchTerms, searchResults} = this.state;
     return (
       <View style={{flex: 1}}>
         <Text h4 style={{margin: 8}}>Search for species</Text>
-        <SearchBar lightTheme value={searchTerms} onChangeText={this.changeTerms} showLoading={this.state.isLoading} />
-        {
-          this.state.noResults && searchTerms ? (
-            <Text>No Results found</Text>
-          ) : null
-        }
-        <FlatList data={searchResults} renderItem={this.renderFish} keyExtractor={(item, index) => item.id.toString() || index} />
+
+          <SearchBar lightTheme value={searchTerms} onChangeText={this.changeTerms} showLoading={this.state.isLoading} />
+          {
+            this.state.noResults && searchTerms ? (
+              <Text>No Results found</Text>
+            ) : null
+          }
+          <FlatList keyboardShouldPersistTaps="always" onScroll={() => Keyboard.dismiss()} data={searchResults} renderItem={this.renderFish} keyExtractor={(item, index) => item.id.toString() || index} />
       </View>
     )
   }

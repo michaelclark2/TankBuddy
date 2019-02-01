@@ -14,6 +14,7 @@ export default class AddFishScreen extends React.Component {
     usersTanks: [],
     selectedTank: {},
     speciesVisible: false,
+    selectedSpecies: {},
     fish: {
       name: '',
       sex: 0,
@@ -47,21 +48,30 @@ export default class AddFishScreen extends React.Component {
     }
   }
 
-  showSpeciesSearch = () => {
-    this.setState({speciesVisible: true})
+  showSpeciesSearch = () => this.setState({speciesVisible: true});
+
+  selectSpecies = (selectedSpecies) => {
+    const {fish} = {...this.state};
+    fish.speciesId = selectedSpecies.id;
+    this.setState({selectedSpecies, fish, speciesVisible: false})
   }
 
   render () {
-    const {fish, usersTanks, selectedTank, speciesVisible} = this.state;
+    const {fish, usersTanks, selectedTank, selectedSpecies, speciesVisible} = this.state;
     return (
       <View style={{flex: 1}}>
         <Overlay isVisible={speciesVisible} onBackdropPress={() => this.setState({speciesVisible: false})}>
-          <SearchSpecies />
+          <SearchSpecies selectSpecies={this.selectSpecies}/>
         </Overlay>
         <Card title="Name" wrapperStyle={styles.centered}>
           <InputField onChangeText={(name) => this.changeInput(name, 'name')} value={fish.name} />
         </Card>
         <Card title="Species" wrapperStyle={styles.centered}>
+          {
+            selectedSpecies && selectedSpecies.id ? (
+              <Text h4>{selectedSpecies.commonName !== 'N/A' ? selectedSpecies.commonName : selectedSpecies.scientificName}</Text>
+            ) : null
+          }
           <Button title="Find Species" onPress={this.showSpeciesSearch} />
         </Card>
         <Card title="Sex" wrapperStyle={styles.centered}>
