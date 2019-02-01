@@ -28,7 +28,7 @@ namespace TankBuddy.Controllers
         {
             var searchRes = _species.SearchSpecies(q);
 
-            if (searchRes != null || searchRes.Count > 0)
+            if (searchRes != null && searchRes.Count > 0)
             {
                 return Ok(searchRes);
             }
