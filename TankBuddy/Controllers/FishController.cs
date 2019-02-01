@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using TankBuddy.DataAccess;
+using TankBuddy.Models;
 
 namespace TankBuddy.Controllers
 {
@@ -39,9 +40,18 @@ namespace TankBuddy.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult NewFish([FromBody] object fish)
+        public IActionResult NewFish([FromBody] Fish fish)
         {
-            throw new NotImplementedException();
+            bool success = _fish.AddFish(fish);
+
+            if (success)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPut("edit")]

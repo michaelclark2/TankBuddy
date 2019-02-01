@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Dapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TankBuddy.Models;
 
 namespace TankBuddy.DataAccess
 {
@@ -12,6 +14,15 @@ namespace TankBuddy.DataAccess
         public FishProvider(DatabaseConnection db)
         {
             _db = db;
+        }
+
+        public bool AddFish(Fish fish)
+        {
+            using (var db = _db.GetConnection())
+            {
+                string sql = "INSERT INTO Fish VALUES (@name, @sex, @tankId, @speciesId)";
+                return db.Execute(sql, fish) == 1;
+            }
         }
     }
 }

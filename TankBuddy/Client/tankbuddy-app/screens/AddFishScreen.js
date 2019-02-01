@@ -4,6 +4,7 @@ import { Card, Text, Button, Slider, Overlay, SearchBar } from 'react-native-ele
 import InputField from '../components/InputField';
 import { getTanks } from '../api/tanks';
 import SearchSpecies from '../components/SearchSpecies';
+import { postFish } from '../api/fish';
 
 export default class AddFishScreen extends React.Component {
   static navigationOptions = {
@@ -65,7 +66,11 @@ export default class AddFishScreen extends React.Component {
 
   addFish = () => {
     const {fish} = this.state;
-    console.log(fish);
+    postFish(fish)
+      .then(() => {
+        this.props.navigation.popToTop();
+      })
+      .catch(console.error);
   }
 
   render () {
