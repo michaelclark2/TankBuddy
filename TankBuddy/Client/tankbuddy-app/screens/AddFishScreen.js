@@ -1,8 +1,9 @@
 import React from 'react';
 import {StyleSheet, View, Picker} from 'react-native';
-import { Card, Text, Button, Slider } from 'react-native-elements';
+import { Card, Text, Button, Slider, Overlay, SearchBar } from 'react-native-elements';
 import InputField from '../components/InputField';
 import { getTanks } from '../api/tanks';
+import SearchSpecies from '../components/SearchSpecies';
 
 export default class AddFishScreen extends React.Component {
   static navigationOptions = {
@@ -12,6 +13,7 @@ export default class AddFishScreen extends React.Component {
   state = {
     usersTanks: [],
     selectedTank: {},
+    speciesVisible: false,
     fish: {
       name: '',
       sex: 0,
@@ -45,15 +47,22 @@ export default class AddFishScreen extends React.Component {
     }
   }
 
+  showSpeciesSearch = () => {
+    this.setState({speciesVisible: true})
+  }
+
   render () {
-    const {fish, usersTanks, selectedTank} = this.state;
+    const {fish, usersTanks, selectedTank, speciesVisible} = this.state;
     return (
       <View style={{flex: 1}}>
+        <Overlay isVisible={speciesVisible} onBackdropPress={() => this.setState({speciesVisible: false})}>
+          <SearchSpecies />
+        </Overlay>
         <Card title="Name" wrapperStyle={styles.centered}>
           <InputField onChangeText={(name) => this.changeInput(name, 'name')} value={fish.name} />
         </Card>
         <Card title="Species" wrapperStyle={styles.centered}>
-          <Button title="Find Species" onPress={() => console.log('clicky')} />
+          <Button title="Find Species" onPress={this.showSpeciesSearch} />
         </Card>
         <Card title="Sex" wrapperStyle={styles.centered}>
           <View style={styles.sexSlider}>
