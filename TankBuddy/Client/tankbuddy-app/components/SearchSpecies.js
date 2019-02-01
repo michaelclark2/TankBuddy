@@ -52,7 +52,6 @@ export default class SearchSpecies extends React.Component {
       title={item.scientificName}
       subtitle={item.commonName}
       onPress={() => selectSpecies(item)}
-
     />
   }
   render () {

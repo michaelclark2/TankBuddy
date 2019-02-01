@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Picker} from 'react-native';
+import {StyleSheet, View, Picker, ScrollView} from 'react-native';
 import { Card, Text, Button, Slider, Overlay, SearchBar } from 'react-native-elements';
 import InputField from '../components/InputField';
 import { getTanks } from '../api/tanks';
@@ -56,10 +56,22 @@ export default class AddFishScreen extends React.Component {
     this.setState({selectedSpecies, fish, speciesVisible: false})
   }
 
+  isValidFish = () => {
+    const {fish} = this.state;
+    return fish.name !== ''
+    && fish.speciesId > 0
+    && fish.tankId > 0
+  }
+
+  addFish = () => {
+    const {fish} = this.state;
+    console.log(fish);
+  }
+
   render () {
     const {fish, usersTanks, selectedTank, selectedSpecies, speciesVisible} = this.state;
     return (
-      <View style={{flex: 1}}>
+      <ScrollView style={{flex: 1}}>
         <Overlay isVisible={speciesVisible} onBackdropPress={() => this.setState({speciesVisible: false})}>
           <SearchSpecies selectSpecies={this.selectSpecies}/>
         </Overlay>
@@ -94,7 +106,27 @@ export default class AddFishScreen extends React.Component {
             }
           </Picker>
         </Card>
-      </View>
+        <Card title="Warnings">
+            <Text>Warning</Text>
+            <Text>Warning</Text>
+            <Text>Warning</Text>
+            <Text>Warning</Text>
+            <Text>Warning</Text>
+            <Text>Warning</Text>
+            <Text>Warning</Text>
+            <Text>Warning</Text>
+            <Text>Warning</Text>
+            <Text>Warning</Text>
+            <Text>Warning</Text>
+        </Card>
+        {
+          this.isValidFish() ? (
+            <View style={{justifyContent: 'center', flex: 1, padding: 16}}>
+              <Button title="Add Fish" onPress={this.addFish} />
+            </View>
+          ) : null
+        }
+      </ScrollView>
     )
   }
 }
