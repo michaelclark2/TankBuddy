@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using TankBuddy.DataAccess;
 
 namespace TankBuddy.Controllers
 {
@@ -12,11 +14,28 @@ namespace TankBuddy.Controllers
     [Authorize, ApiController]
     public class FishController : ControllerBase
     {
+        private SpeciesProvider _species;
+        private FishProvider _fish;
+
+        public FishController(IConfiguration config)
+        {
+            _species = new SpeciesProvider(new DatabaseConnection(config, "Species"));
+            _fish = new FishProvider(new DatabaseConnection(config, "TankBuddy"));
+        }
 
         [HttpGet("search")]
-        public IActionResult FindFish([FromQuery] string terms)
+        public IActionResult FindFish([FromQuery] string q)
         {
-            throw new NotImplementedException();
+            var searchRes = _species.SearchSpecies(q);
+
+            if (searchRes != null || searchRes.Count > 0)
+            {
+                return Ok(searchRes);
+            }
+            else
+            {
+                return NoContent();
+            }
         }
 
         [HttpPost("add")]
