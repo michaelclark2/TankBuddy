@@ -16,5 +16,7 @@ namespace TankBuddy.Models
         public int Temp { get; set; }
         public float pH { get; set; }
         public float dH { get; set; }
+        public List<Filter> Filters { get; set; }
+        public List<Fish> Fish { get; set; }
     }
 }

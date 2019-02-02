@@ -30,8 +30,19 @@ namespace TankBuddy.DataAccess
             
             using (var db = _db.GetConnection())
             {
-                string sql = "SELECT t.* FROM Tank t JOIN [User] u ON u.Id = t.UserId WHERE u.Uid = @uid";
-                return db.Query<Tank>(sql, new { uid }).ToList();
+                string tankSql = "SELECT t.* FROM Tank t JOIN [User] u ON u.Id = t.UserId WHERE u.Uid = @uid";
+                var tanks = db.Query<Tank>(tankSql, new { uid }).ToList();
+
+                foreach (var tank in tanks)
+                {
+                    string fishSql = "SELECT * FROM Fish WHERE TankId = @id";
+                    tank.Fish = db.Query<Fish>(fishSql, new { tank.Id }).ToList();
+
+                    string filterSql = "SELECT * FROM Filter WHERE TankId = @id";
+                    tank.Filters = db.Query<Filter>(filterSql, new { tank.Id }).ToList();
+                }
+
+                return tanks;
             }
             
         }
