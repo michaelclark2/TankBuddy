@@ -4,6 +4,7 @@ import {Button, Text} from 'react-native-elements';
 
 import {logoutUser} from '../api/firebase';
 import {authenticate} from '../api/auth';
+import TankList from '../components/TankList';
 
 export default class HomeScreen extends React.Component {
   state = {
@@ -25,9 +26,7 @@ export default class HomeScreen extends React.Component {
       return (
         <View>
           <Text>Add a tank to get started!</Text>
-          <Button title="Add New Tank" onPress={() => this.props.navigation.push('AddTank', {user: this.state.user})} />
-          <Button title="Add New Filter" onPress={() => this.props.navigation.push('AddFilter', {user: this.state.user})} />
-          <Button title="Add New Fish" onPress={() => this.props.navigation.push('AddFish')} />
+
         </View>
       )
     }
@@ -45,11 +44,15 @@ export default class HomeScreen extends React.Component {
       });
   }
   render () {
+    const {user} = this.state;
     return (
       <View style={styles.container}>
-        { this.showUserTanks() }
+        <TankList/>
         <Text>Username: {this.state.user.name}</Text>
         <Button title="Logout" onPress={logoutUser} />
+        <Button title="Add New Tank" onPress={() => this.props.navigation.push('AddTank', {user: this.state.user})} />
+        <Button title="Add New Filter" onPress={() => this.props.navigation.push('AddFilter', {user: this.state.user})} />
+        <Button title="Add New Fish" onPress={() => this.props.navigation.push('AddFish')} />
       </View>
     )
   }

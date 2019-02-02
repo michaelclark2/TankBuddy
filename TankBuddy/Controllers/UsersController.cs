@@ -16,11 +16,13 @@ namespace TankBuddy.Controllers
     public class UsersController : ControllerBase
     {
         private UserProvider _users;
+        private TankProvider _tanks;
 
         public UsersController(IConfiguration config)
         {
             var db = new DatabaseConnection(config, "TankBuddy");
             _users = new UserProvider(db);
+            _tanks = new TankProvider(db);
         }
 
         [HttpGet("login")]
@@ -30,6 +32,7 @@ namespace TankBuddy.Controllers
             var user = _users.FindUser(uid);
             if (user != null)
             {
+                user.Tanks = _tanks.GetTanksByUid(uid);
                 return Ok(user);
             }
             else
