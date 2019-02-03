@@ -8,6 +8,7 @@ export default class TankList extends React.Component {
       bottomDivider
       leftElement={() => <Text>{item.name}</Text>}
       rightElement={() => <Text>{Math.floor(item.stockAvailable)} / {Math.floor(item.stockCapacity)}</Text>}
+      onPress={() => this.props.navigation.navigate('TankDetails', {tank: item})}
     />
   }
   render () {
