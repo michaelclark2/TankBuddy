@@ -35,7 +35,7 @@ namespace TankBuddy.DataAccess
 
                 foreach (var tank in tanks)
                 {
-                    string fishSql = "SELECT * FROM Fish WHERE TankId = @id";
+                    string fishSql = "SELECT * FROM TankBuddy.dbo.Fish t JOIN Species.dbo.Fish s ON t.SpeciesId = s.Id WHERE TankId = @id";
                     tank.Fish = db.Query<Fish>(fishSql, new { tank.Id }).ToList();
 
                     string filterSql = "SELECT * FROM Filter WHERE TankId = @id";

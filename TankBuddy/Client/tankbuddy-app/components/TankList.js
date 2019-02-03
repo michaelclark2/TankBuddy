@@ -1,13 +1,13 @@
 import React from 'react';
 import {FlatList} from 'react-native';
-import {ListItem, Text, Icon} from 'react-native-elements';
+import {ListItem, Text} from 'react-native-elements';
 
 export default class TankList extends React.Component {
   renderTankItem = ({item}) => {
     return <ListItem
       bottomDivider
       leftElement={() => <Text>{item.name}</Text>}
-      rightElement={() => <Text>Stock / Available</Text>}
+      rightElement={() => <Text>{Math.floor(item.stockAvailable)} / {Math.floor(item.stockCapacity)}</Text>}
     />
   }
   render () {

@@ -21,6 +21,19 @@ namespace TankBuddy.Models
         public List<Fish> Fish { get; set; }
         public decimal Volume => Metric ? (decimal)((Length * Width * Depth) / 1000) : (decimal)((Length * Width * Depth) / 3785.412);
         public decimal StockCapacity => Metric ? AdjustCapacity(Volume) : AdjustCapacity(Volume * 2);
+        public decimal StockAvailable => StockCapacity - SumFishSize(Fish);
+
+        private decimal SumFishSize(IEnumerable<Fish> fish)
+        {
+            if (Metric)
+            {
+                return fish.Sum(f => f.MaxSize);
+            }
+            else
+            {
+                return fish.Sum(f => f.MaxSize) / (decimal)2.54;
+            }
+        }
 
         private decimal AdjustCapacity(decimal vol)
         {
