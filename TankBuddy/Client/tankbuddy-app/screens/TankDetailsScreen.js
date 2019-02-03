@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, ScrollView, View} from 'react-native';
 import {Text, Card} from 'react-native-elements';
 
 import FishTankLevels from '../components/FishTankLevels';
@@ -16,8 +16,8 @@ export default class TankDetailsScreen extends React.Component {
   render () {
     const {tank} = this.state;
     return (
-      <View style={{flex: 1}}>
-        <Card>
+      <ScrollView style={{flex: 1}}>
+        <Card title="Fish">
           <FishTankLevels fish={tank.fish}/>
         </Card>
         <Text h3 style={{textAlign: 'center'}}>Stock: {Math.floor(tank.stockAvailable)} / {Math.floor(tank.stockCapacity)}</Text>
@@ -39,7 +39,7 @@ export default class TankDetailsScreen extends React.Component {
         </Card>
         <Card title="Warnings">
         </Card>
-      </View>
+      </ScrollView>
     )
   }
 }
