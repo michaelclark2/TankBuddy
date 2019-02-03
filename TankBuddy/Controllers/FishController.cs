@@ -43,7 +43,7 @@ namespace TankBuddy.Controllers
         public IActionResult NewFish([FromBody] Fish fish)
         {
             bool success = _fish.AddFish(fish);
-
+            
             if (success)
             {
                 return Ok();

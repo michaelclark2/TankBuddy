@@ -30,7 +30,7 @@ namespace TankBuddy.DataAccess
             
             using (var db = _db.GetConnection())
             {
-                string tankSql = "SELECT t.* FROM Tank t JOIN [User] u ON u.Id = t.UserId WHERE u.Uid = @uid";
+                string tankSql = "SELECT t.*, u.Metric FROM Tank t JOIN [User] u ON u.Id = t.UserId WHERE u.Uid = @uid";
                 var tanks = db.Query<Tank>(tankSql, new { uid }).ToList();
 
                 foreach (var tank in tanks)
