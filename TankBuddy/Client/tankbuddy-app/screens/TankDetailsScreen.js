@@ -15,7 +15,6 @@ export default class TankDetailsScreen extends React.Component {
 
   state = {
     tank: this.props.navigation.getParam('tank'),
-    isEditing: false,
     isDeleting: false,
   }
 
@@ -23,11 +22,6 @@ export default class TankDetailsScreen extends React.Component {
     this.setState({isDeleting: true});
   }
 
-  changeName = (name) => {
-    const {tank} = {...this.state};
-    tank.name = name;
-    this.setState({tank});
-  }
   removeTank = () => {
     const {tank} = this.state;
 
