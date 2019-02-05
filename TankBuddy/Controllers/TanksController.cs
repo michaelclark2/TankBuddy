@@ -68,7 +68,16 @@ namespace TankBuddy.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteTank(int id)
         {
-            throw new NotImplementedException();
+            bool success = _tanks.DeleteTank(id);
+
+            if (success)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound(new { Message = "The tank could not be found" });
+            }
         }
     }
 }

@@ -25,8 +25,8 @@ namespace TankBuddy.Models
         public float dH { get; set; }
         public List<Filter> Filters { get; set; }
         public List<Fish> Fish { get; set; }
-        public decimal StockCapacity => Metric ? AdjustCapacity(Volume) : AdjustCapacity(Volume * 2);
-        public decimal StockAvailable => StockCapacity - SumFishSize(Fish);
+        public decimal StockCapacity => Metric ? Math.Round(AdjustCapacity(Volume), 2) : Math.Round(AdjustCapacity(Volume * 2), 2);
+        public decimal StockAvailable => Math.Round(StockCapacity - SumFishSize(Fish), 2);
 
         private decimal SumFishSize(IEnumerable<Fish> fish)
         {

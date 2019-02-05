@@ -17,21 +17,6 @@ export default class HomeScreen extends React.Component {
     this.authenticateUser();
   }
 
-  showUserTanks = () => {
-    const {user} = this.state;
-    if (user.tanks && user.tanks.length) {
-      return user.tanks.map(t => <Text>{t.name}</Text>);
-    }
-    else {
-      return (
-        <View>
-          <Text>Add a tank to get started!</Text>
-
-        </View>
-      )
-    }
-  }
-
   authenticateUser = () => {
     AsyncStorage.getItem('token')
       .then(token => {

@@ -46,5 +46,14 @@ namespace TankBuddy.DataAccess
             }
             
         }
+
+        public bool DeleteTank(int id)
+        {
+            using (var db = _db.GetConnection())
+            {
+                string sql = "DELETE FROM Tank WHERE Id = @id";
+                return db.Execute(sql, new { id }) == 1;
+            }
+        }
     }
 }
