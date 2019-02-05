@@ -12,7 +12,7 @@ namespace TankBuddy.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public bool Metric { get; set; } = true;
-        public decimal FlowRate { get => Metric ? (flowrate) : Math.Round((flowrate * (decimal)3.785), 2); set { flowrate = value; } }
+        public decimal FlowRate { get; set; }
         public string Type { get; set; }
         public int TankId { get; set; }
     }

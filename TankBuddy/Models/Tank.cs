@@ -7,48 +7,27 @@ namespace TankBuddy.Models
 {
     public class Tank
     {
-        private float width;
-        private float length;
-        private float depth;
-        private int temp;
-
         public int Id { get; set; }
         public string Name { get; set; }
         public int UserId { get; set; }
         public bool Metric { get; set; } = true;
-        public float Width
-        {
-            get => Metric ? (width) : (float)Math.Round(width / (float)2.54, 2);
-            set { width = Metric ? value : value * (float)2.54; }
-        }
-        public float Length
-        {
-            get => Metric ? (length) : (float)Math.Round(length / (float)2.54, 2);
-            set { length = Metric ? value : value * (float)2.54; }
-        }
-        public float Depth
-        {
-            get => Metric ? (depth) : (float)Math.Round(depth / (float)2.54, 2);
-            set { depth = Metric ? value : value * (float)2.54; }
-        }
-        public int Temp
-        {
-            get => Metric ? (temp) : (temp * 9/5) + 32;
-            set { temp = Metric ? value : (value - 32) * 5/9; }
-        }
-        public decimal Volume => Metric ? (decimal)((length * width * depth) / 1000) : (decimal)((length * width * depth) / 3785.412);
+        public float Width { get; set; }
+        public float Length { get; set; }
+        public float Depth { get; set; }
+        public int Temp { get; set; }
+        public decimal Volume => (decimal)((Length * Width * Depth) / 1000);
         public float pH { get; set; }
         public float dH { get; set; }
         public List<Filter> Filters { get; set; }
         public List<Fish> Fish { get; set; }
-        public decimal StockCapacity => Metric ? Math.Round(AdjustCapacity(Volume), 2) : Math.Round(AdjustCapacity(Volume * 2), 2);
-        public decimal StockAvailable => Math.Round(StockCapacity - SumFishSize(Fish), 2);
+        public decimal StockCapacity => Math.Round(AdjustCapacity(Volume), 0);
+        public decimal StockAvailable => Math.Round(StockCapacity - SumFishSize(Fish), 0);
 
         private decimal SumFishSize(IEnumerable<Fish> fish)
         {
             if (fish != null)
             {
-                return Metric ? fish.Sum(f => f.MaxSize) : fish.Sum(f => f.MaxSize) / (decimal)2.54;
+                return fish.Sum(f => f.MaxSize);
             }
             return 0;
         }
@@ -62,7 +41,6 @@ namespace TankBuddy.Models
                 foreach (var filter in Filters)
                 {
 
-                    isMetric(filter);
 
                     if (filter.Type.Equals("internal"))
                     {
@@ -97,9 +75,5 @@ namespace TankBuddy.Models
             return vol + (vol * ((decimal)percentage / 100));
         }
 
-        private void isMetric (Filter filter)
-        {
-            filter.Metric = Metric;
-        }
     }
 }

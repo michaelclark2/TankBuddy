@@ -8,7 +8,7 @@ export default class FilterList extends React.Component {
     <ListItem
       bottomDivider
       title={item.name}
-      subtitle={`${item.type} ${item.flowRate} ${item.metric ? 'lph' : 'gph'}`}
+      subtitle={`${item.type} ${item.flowRate} lph`}
     />
   )
   render () {
