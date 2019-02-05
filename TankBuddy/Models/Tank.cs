@@ -7,19 +7,24 @@ namespace TankBuddy.Models
 {
     public class Tank
     {
+        private float width;
+        private float length;
+        private float depth;
+        private int temp;
+
         public int Id { get; set; }
         public string Name { get; set; }
         public int UserId { get; set; }
-        public float Width { get; set; }
-        public float Length { get; set; }
-        public float Depth { get; set; }
         public bool Metric { get; set; } = true;
-        public int Temp { get; set; }
+        public float Width { get => Metric ? (width) : (float)Math.Round(width / (float)2.54, 2); set { width = value; } }
+        public float Length { get => Metric ? (length) : (float)Math.Round(length / (float)2.54, 2); set { length = value; } }
+        public float Depth { get => Metric ? (depth) : (float)Math.Round(depth / (float)2.54, 2); set { depth = value; } }
+        public decimal Volume => Metric ? (decimal)((length * width * depth) / 1000) : (decimal)((length * width * depth) / 3785.412);
+        public int Temp { get => Metric ? (temp) : (temp * 9/5) + 32; set { temp = value; } }
         public float pH { get; set; }
         public float dH { get; set; }
         public List<Filter> Filters { get; set; }
         public List<Fish> Fish { get; set; }
-        public decimal Volume => Metric ? (decimal)((Length * Width * Depth) / 1000) : (decimal)((Length * Width * Depth) / 3785.412);
         public decimal StockCapacity => Metric ? AdjustCapacity(Volume) : AdjustCapacity(Volume * 2);
         public decimal StockAvailable => StockCapacity - SumFishSize(Fish);
 
@@ -41,9 +46,12 @@ namespace TankBuddy.Models
 
             foreach (var filter in Filters)
             {
+                
+                filter.Metric = Metric;
+
                 if (filter.Type.Equals("internal"))
                 {
-                    if (filter.FlowRate > this.Volume * 8)
+                    if (filter.FlowRate >= this.Volume * 8)
                     {
                         percentage += 5;
                     }
@@ -52,7 +60,7 @@ namespace TankBuddy.Models
                 if (filter.Type.Equals("external"))
                 {
                     percentage += 10;
-                    if (filter.FlowRate > this.Volume * 8)
+                    if (filter.FlowRate >= this.Volume * 8)
                     {
                         percentage += 15;
                     }

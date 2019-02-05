@@ -1,8 +1,9 @@
 import React from 'react';
 import {StyleSheet, ScrollView, View} from 'react-native';
-import {Text, Card} from 'react-native-elements';
+import {Text, Card, Button} from 'react-native-elements';
 
 import FishTankLevels from '../components/FishTankLevels';
+import FilterList from '../components/FilterList';
 
 export default class TankDetailsScreen extends React.Component {
 
@@ -36,7 +37,16 @@ export default class TankDetailsScreen extends React.Component {
           </View>
         </Card>
         <Card title="Filters">
+          <FilterList filters={tank.filters} />
         </Card>
+        <View style={styles.modBtns}>
+          <View style={styles.btn}>
+            <Button style={{...styles.btn, ...styles.editBtn}} title="Edit" />
+          </View>
+          <View style={styles.btn}>
+            <Button style={{...styles.btn, ...styles.delBtn}} title="Delete" />
+          </View>
+        </View>
         <Card title="Warnings">
         </Card>
       </ScrollView>
@@ -48,5 +58,17 @@ const styles = StyleSheet.create({
   viewRows: {
     flexDirection: 'row',
     justifyContent: 'space-around'
+  },
+  modBtns: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    margin: 8,
+    marginBottom: 0
+  },
+  btn: {
+    flex: 1,
+    margin: 8,
+    marginBottom: 0
   }
 })
