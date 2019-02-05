@@ -1,10 +1,12 @@
 import React from 'react';
 import { View, StyleSheet, AsyncStorage, StatusBar } from 'react-native';
+import {NavigationEvents} from 'react-navigation';
 import {Button, Text} from 'react-native-elements';
 
 import {logoutUser} from '../api/firebase';
 import {authenticate} from '../api/auth';
 import TankList from '../components/TankList';
+import { getTanks } from '../api/tanks';
 
 export default class HomeScreen extends React.Component {
   state = {
@@ -28,10 +30,21 @@ export default class HomeScreen extends React.Component {
 
       });
   }
+
+  refreshTanks = () => {
+    const {user} = {...this.state};
+    getTanks()
+      .then(tanks => {
+        user.tanks = tanks;
+        this.setState({user});
+      })
+  }
+
   render () {
     const {user} = this.state;
     return (
       <View style={styles.container}>
+        <NavigationEvents onDidFocus={this.refreshTanks}/>
         <TankList navigation={this.props.navigation} tanks={user.tanks} />
         <Text>Username: {this.state.user.name}</Text>
         <Button title="Logout" onPress={logoutUser} />

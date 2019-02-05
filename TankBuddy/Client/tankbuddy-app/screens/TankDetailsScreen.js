@@ -28,7 +28,7 @@ export default class TankDetailsScreen extends React.Component {
     deleteTank(tank.id)
       .then(() => {
         this.closeModal();
-        this.props.navigation.navigate('Home');
+        this.props.navigation.popToTop();
       })
       .catch(console.error);
   }
