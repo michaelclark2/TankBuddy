@@ -19,6 +19,7 @@ export default class AddTankScreen extends React.Component {
     tank: {
       name: '',
       userId: this.props.navigation.getParam('user').id,
+      metric: this.props.navigation.getParam('user').metric,
       width: 0,
       length: 0,
       depth: 0,

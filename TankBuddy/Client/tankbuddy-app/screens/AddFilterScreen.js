@@ -15,6 +15,7 @@ export default class AddFilterScreen extends React.Component {
     selectedTank: this.props.navigation.getParam('selectedTank') || {},
     usersTanks: [],
     filter: {
+      tankId: this.props.navigation.getParam('selectedTank').id || 0,
       type: 'internal'
     }
   }

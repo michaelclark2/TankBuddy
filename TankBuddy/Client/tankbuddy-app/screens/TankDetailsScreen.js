@@ -4,6 +4,7 @@ import {Text, Card, Button, Overlay} from 'react-native-elements';
 
 import FishTankLevels from '../components/FishTankLevels';
 import FilterList from '../components/FilterList';
+import InputField from '../components/InputField';
 import { deleteTank } from '../api/tanks';
 
 export default class TankDetailsScreen extends React.Component {
@@ -19,9 +20,14 @@ export default class TankDetailsScreen extends React.Component {
   }
 
   tryDelete = () => {
-    this.setState({isDeleting: true, isEditing: false});
+    this.setState({isDeleting: true});
   }
 
+  changeName = (name) => {
+    const {tank} = {...this.state};
+    tank.name = name;
+    this.setState({tank});
+  }
   removeTank = () => {
     const {tank} = this.state;
 
@@ -34,26 +40,25 @@ export default class TankDetailsScreen extends React.Component {
   }
 
   closeModal = () => {
-    this.setState({isDeleting: false, isEditing: false});
+    this.setState({isDeleting: false});
   }
   render () {
-    const {tank, isEditing, isDeleting} = this.state;
+    const {tank, isDeleting} = this.state;
     return (
       <ScrollView style={{flex: 1}}>
-        <Overlay isVisible={isEditing} onBackdropPress={this.closeModal}>
-          <Text>Editing</Text>
-        </Overlay>
         <Overlay isVisible={isDeleting} height="auto" onBackdropPress={this.closeModal}>
-          <Text h4 style={{textAlign: 'center'}}>Delete {tank.name}?</Text>
-          <View style={{...styles.modBtns, justifyContent: 'space-around'}}>
-            <Button style={styles.btn} title="Yes" onPress={this.removeTank}/>
-            <Button style={styles.btn} title="No" onPress={this.closeModal}/>
+          <View>
+            <Text h4 style={{textAlign: 'center'}}>Delete {tank.name}?</Text>
+            <View style={{...styles.modBtns, justifyContent: 'space-around'}}>
+              <Button style={styles.btn} title="Yes" onPress={this.removeTank}/>
+              <Button style={styles.btn} title="No" onPress={this.closeModal}/>
+            </View>
           </View>
         </Overlay>
         <Card title="Fish">
           <FishTankLevels fish={tank.fish}/>
         </Card>
-        <Text h3 style={{textAlign: 'center'}}>Stock: {Math.floor(tank.stockAvailable)} / {Math.floor(tank.stockCapacity)}</Text>
+        <Text h3 style={{textAlign: 'center'}}>Stock: {tank.stockAvailable} / {tank.stockCapacity}</Text>
         <Card title="Dimensions">
           <View style={styles.viewRows}>
             <Text h4>W: {tank.width}</Text>
@@ -72,9 +77,6 @@ export default class TankDetailsScreen extends React.Component {
           <FilterList filters={tank.filters} />
         </Card>
         <View style={styles.modBtns}>
-          <View style={styles.btn}>
-            <Button style={{...styles.btn, ...styles.editBtn}} title="Edit" />
-          </View>
           <View style={styles.btn}>
             <Button style={{...styles.btn, ...styles.delBtn}} title="Delete" onPress={this.tryDelete} />
           </View>

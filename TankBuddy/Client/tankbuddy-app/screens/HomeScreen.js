@@ -10,7 +10,8 @@ import { getTanks } from '../api/tanks';
 
 export default class HomeScreen extends React.Component {
   state = {
-    user: {}
+    user: {},
+    tanks: [],
   }
   static navigationOptions = {
     title: "TankBuddy"
@@ -25,7 +26,7 @@ export default class HomeScreen extends React.Component {
         authenticate(token)
           .then(user => {
             AsyncStorage.setItem('metric', JSON.stringify(user.metric));
-            this.setState({user})
+            this.setState({user, tanks: user.tanks})
           }).catch(console.error)
 
       });
@@ -35,17 +36,16 @@ export default class HomeScreen extends React.Component {
     const {user} = {...this.state};
     getTanks()
       .then(tanks => {
-        user.tanks = tanks;
-        this.setState({user});
+        this.setState({tanks});
       })
   }
 
   render () {
-    const {user} = this.state;
+    const {user, tanks} = this.state;
     return (
       <View style={styles.container}>
         <NavigationEvents onDidFocus={this.refreshTanks}/>
-        <TankList navigation={this.props.navigation} tanks={user.tanks} />
+        <TankList navigation={this.props.navigation} tanks={tanks} />
         <Text>Username: {this.state.user.name}</Text>
         <Button title="Logout" onPress={logoutUser} />
         <Button title="Add New Tank" onPress={() => this.props.navigation.push('AddTank', {user: this.state.user})} />

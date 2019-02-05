@@ -16,11 +16,27 @@ namespace TankBuddy.Models
         public string Name { get; set; }
         public int UserId { get; set; }
         public bool Metric { get; set; } = true;
-        public float Width { get => Metric ? (width) : (float)Math.Round(width / (float)2.54, 2); set { width = value; } }
-        public float Length { get => Metric ? (length) : (float)Math.Round(length / (float)2.54, 2); set { length = value; } }
-        public float Depth { get => Metric ? (depth) : (float)Math.Round(depth / (float)2.54, 2); set { depth = value; } }
+        public float Width
+        {
+            get => Metric ? (width) : (float)Math.Round(width / (float)2.54, 2);
+            set { width = Metric ? value : value * (float)2.54; }
+        }
+        public float Length
+        {
+            get => Metric ? (length) : (float)Math.Round(length / (float)2.54, 2);
+            set { length = Metric ? value : value * (float)2.54; }
+        }
+        public float Depth
+        {
+            get => Metric ? (depth) : (float)Math.Round(depth / (float)2.54, 2);
+            set { depth = Metric ? value : value * (float)2.54; }
+        }
+        public int Temp
+        {
+            get => Metric ? (temp) : (temp * 9/5) + 32;
+            set { temp = Metric ? value : (value - 32) * 5/9; }
+        }
         public decimal Volume => Metric ? (decimal)((length * width * depth) / 1000) : (decimal)((length * width * depth) / 3785.412);
-        public int Temp { get => Metric ? (temp) : (temp * 9/5) + 32; set { temp = value; } }
         public float pH { get; set; }
         public float dH { get; set; }
         public List<Filter> Filters { get; set; }
@@ -30,47 +46,47 @@ namespace TankBuddy.Models
 
         private decimal SumFishSize(IEnumerable<Fish> fish)
         {
-            if (Metric)
+            if (fish != null)
             {
-                return fish.Sum(f => f.MaxSize);
+                return Metric ? fish.Sum(f => f.MaxSize) : fish.Sum(f => f.MaxSize) / (decimal)2.54;
             }
-            else
-            {
-                return fish.Sum(f => f.MaxSize) / (decimal)2.54;
-            }
+            return 0;
         }
 
         private decimal AdjustCapacity(decimal vol)
         {
             int percentage = 0;
 
-            foreach (var filter in Filters)
+            if (Filters != null && Filters.Count > 0)
             {
-                
-                filter.Metric = Metric;
-
-                if (filter.Type.Equals("internal"))
+                foreach (var filter in Filters)
                 {
-                    if (filter.FlowRate >= this.Volume * 8)
+
+                    isMetric(filter);
+
+                    if (filter.Type.Equals("internal"))
                     {
-                        percentage += 5;
+                        if (filter.FlowRate >= this.Volume * 8)
+                        {
+                            percentage += 5;
+                        }
                     }
-                }
 
-                if (filter.Type.Equals("external"))
-                {
-                    percentage += 10;
-                    if (filter.FlowRate >= this.Volume * 8)
+                    if (filter.Type.Equals("external"))
                     {
-                        percentage += 15;
+                        percentage += 10;
+                        if (filter.FlowRate >= this.Volume * 8)
+                        {
+                            percentage += 15;
+                        }
                     }
-                }
 
-                if (filter.Type.Equals("undergravel"))
-                {
-                    percentage -= 20;
-                }
+                    if (filter.Type.Equals("undergravel"))
+                    {
+                        percentage -= 20;
+                    }
                 
+                }
             }
 
             if (percentage == 0)
@@ -79,6 +95,11 @@ namespace TankBuddy.Models
             }
 
             return vol + (vol * ((decimal)percentage / 100));
+        }
+
+        private void isMetric (Filter filter)
+        {
+            filter.Metric = Metric;
         }
     }
 }
