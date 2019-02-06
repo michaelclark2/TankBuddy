@@ -9,3 +9,8 @@ export const getTanks = async () => {
   let headers = await constants.makeHeader();
   return await fetch(constants.backendUrl + 'tanks', {headers}).then(res => res.json());
 }
+
+export const deleteTank = async (id) => {
+  let headers = await constants.makeHeader();
+  return await fetch(constants.backendUrl + 'tanks/' + id, {headers, method: 'DELETE'});
+}

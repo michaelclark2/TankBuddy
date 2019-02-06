@@ -19,6 +19,7 @@ export default class AddTankScreen extends React.Component {
     tank: {
       name: '',
       userId: this.props.navigation.getParam('user').id,
+      metric: this.props.navigation.getParam('user').metric,
       width: 0,
       length: 0,
       depth: 0,
@@ -90,7 +91,7 @@ export default class AddTankScreen extends React.Component {
           {
             this.state.toggleDimensions ? (
               <ImageBackground source={require('../assets/tank.png')} style={styles.tankImg} imageStyle={{resizeMode: 'contain', margin: 16}}>
-                <Text style={styles.sectionHeader}>Dimensions { user.metric ? '(cm)' : '(in)'}</Text>
+                <Text style={styles.sectionHeader}>Dimensions (cm)</Text>
                 <View style={styles.wlSection}>
                   <InputField style={styles.dimensionField} placeholder="Width" isNumber={true} onChangeText={(width) => this.changeInput(width, 'width')} value={tank.width > 0 ? tank.width.toString() : ''} keyboardType="number-pad" />
                   <InputField style={styles.dimensionField} placeholder="Length" isNumber={true} onChangeText={(length) => this.changeInput(length, 'length')} value={tank.length > 0 ? tank.length.toString() : ''} keyboardType="number-pad" />
@@ -109,7 +110,7 @@ export default class AddTankScreen extends React.Component {
             ) : (
               <View style={styles.waterSection}>
                 <Text style={styles.sectionHeader}>Water Conditions</Text>
-                <InputField placeholder={'Temperature ' + (user.metric ? '°C' : '°F')} isNumber={true} onChangeText={(temp) => this.changeInput(temp, 'temp')} value={tank.temp > 0 ? tank.temp.toString() : ''} keyboardType="number-pad" />
+                <InputField placeholder={'Temperature °C'} isNumber={true} onChangeText={(temp) => this.changeInput(temp, 'temp')} value={tank.temp > 0 ? tank.temp.toString() : ''} keyboardType="number-pad" />
                 <InputField placeholder="pH" isNumber={true} onChangeText={(pH) => this.changeInput(pH, 'pH')} value={tank.pH > 0 ? tank.pH.toString() : ''} keyboardType="number-pad" />
                 <InputField placeholder="Hardness" isNumber={true} onChangeText={(dH) => this.changeInput(dH, 'dH')} value={tank.dH > 0 ? tank.dH.toString() : ''} keyboardType="number-pad" />
                 <View style={{flex: 1}} />

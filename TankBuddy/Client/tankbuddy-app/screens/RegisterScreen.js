@@ -47,11 +47,6 @@ export default class RegisterScreen extends React.Component {
     this.setState({user});
   }
 
-  changeMeasurement = (val) => {
-    const {user} = {...this.state};
-    user.metric = val;
-    this.setState({user});
-  }
   register = () => {
     const {user} = this.state;
     console.log(user)

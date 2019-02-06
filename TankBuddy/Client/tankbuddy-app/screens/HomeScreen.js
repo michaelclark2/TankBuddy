@@ -1,13 +1,17 @@
 import React from 'react';
-import { View, StyleSheet, AsyncStorage } from 'react-native';
+import { View, StyleSheet, AsyncStorage, StatusBar } from 'react-native';
+import {NavigationEvents} from 'react-navigation';
 import {Button, Text} from 'react-native-elements';
 
 import {logoutUser} from '../api/firebase';
 import {authenticate} from '../api/auth';
+import TankList from '../components/TankList';
+import { getTanks } from '../api/tanks';
 
 export default class HomeScreen extends React.Component {
   state = {
-    user: {}
+    user: {},
+    tanks: [],
   }
   static navigationOptions = {
     title: "TankBuddy"
@@ -16,40 +20,39 @@ export default class HomeScreen extends React.Component {
     this.authenticateUser();
   }
 
-  showUserTanks = () => {
-    const {user} = this.state;
-    if (user.tanks && user.tanks.length) {
-      return user.tanks.map(t => <Text>{t.name}</Text>);
-    }
-    else {
-      return (
-        <View>
-          <Text>Add a tank to get started!</Text>
-          <Button title="Add New Tank" onPress={() => this.props.navigation.push('AddTank', {user: this.state.user})} />
-          <Button title="Add New Filter" onPress={() => this.props.navigation.push('AddFilter', {user: this.state.user})} />
-          <Button title="Add New Fish" onPress={() => this.props.navigation.push('AddFish')} />
-        </View>
-      )
-    }
-  }
-
   authenticateUser = () => {
     AsyncStorage.getItem('token')
       .then(token => {
         authenticate(token)
           .then(user => {
             AsyncStorage.setItem('metric', JSON.stringify(user.metric));
-            this.setState({user})
-          }).catch(console.error)
-
+            this.setState({user, tanks: user.tanks})
+          }).catch(console.error);
       });
   }
+
+  refreshTanks = () => {
+    const {user} = {...this.state};
+    getTanks()
+      .then(tanks => {
+        this.setState({tanks});
+      })
+  }
+
   render () {
+    const {user, tanks} = this.state;
     return (
       <View style={styles.container}>
-        { this.showUserTanks() }
+        <NavigationEvents onDidFocus={this.refreshTanks}/>
+        <View style={{flex: 1, width: '100%'}}>
+          <Text h4 style={{textAlign: 'center'}}>My Tanks</Text>
+          <TankList navigation={this.props.navigation} tanks={tanks} />
+        </View>
         <Text>Username: {this.state.user.name}</Text>
         <Button title="Logout" onPress={logoutUser} />
+        <Button title="Add New Tank" onPress={() => this.props.navigation.push('AddTank', {user: this.state.user})} />
+        <Button title="Add New Filter" onPress={() => this.props.navigation.push('AddFilter', {user: this.state.user})} />
+        <Button title="Add New Fish" onPress={() => this.props.navigation.push('AddFish')} />
       </View>
     )
   }
