@@ -16,7 +16,7 @@ export default class FishTankLevels extends React.Component {
 
   renderFishIcons = (fish) => {
     return fish.map(f => (
-      <Tooltip key={f.id} popover={<Text>{f.name}: {f.commonName !== 'N/A' ? f.commonName : f.scientificName}</Text>}>
+      <Tooltip key={f.id} popover={<Text>{f.name}: {f.commonName !== 'N/A' ? f.commonName : f.scientificName} {f.maxSize} cm</Text>}>
         <Icon name="fish" type="material-community" size={40} color="orange" />
       </Tooltip>
     ))

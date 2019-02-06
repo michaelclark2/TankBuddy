@@ -47,14 +47,14 @@ export default class TankDetailsScreen extends React.Component {
         <Text h3 style={{textAlign: 'center'}}>Stock: {tank.stockAvailable} / {tank.stockCapacity}</Text>
         <Card title="Dimensions">
           <View style={styles.viewRows}>
-            <Text h4>W: {tank.width}</Text>
-            <Text h4>L: {tank.length}</Text>
-            <Text h4>D: {tank.depth}</Text>
+            <Text h4>W: {tank.width} cm</Text>
+            <Text h4>L: {tank.length} cm</Text>
+            <Text h4>D: {tank.depth} cm</Text>
           </View>
         </Card>
         <Card title="Conditions">
           <View style={styles.viewRows}>
-            <Text h4>Temp: {tank.temp}</Text>
+            <Text h4>Temp: {tank.temp} °C</Text>
             <Text h4>pH: {tank.pH}</Text>
             <Text h4>dH: {tank.dH}</Text>
           </View>
