@@ -15,7 +15,7 @@ export default class AddFilterScreen extends React.Component {
     selectedTank: this.props.navigation.getParam('selectedTank') || {},
     usersTanks: [],
     filter: {
-      tankId: this.props.navigation.getParam('selectedTank').id || 0,
+      tankId: this.props.navigation.getParam('selectedTank') ? this.props.navigation.getParam('selectedTank').id : 0,
       type: 'internal'
     }
   }
@@ -51,11 +51,7 @@ export default class AddFilterScreen extends React.Component {
 
     const cubicCm = selectedTank.width * selectedTank.length * selectedTank.depth;
 
-    if (this.metric) {
-      return ((cubicCm / 1000) * 4).toFixed(2) + ' liters per hour';
-    } else {
-      return (((cubicCm / 16.387) / 231) * 4).toFixed(2) + ' gallons per hour';
-    }
+    return ((cubicCm / 1000) * 4) + ' liters per hour';
 
   }
 

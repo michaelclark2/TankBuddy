@@ -27,8 +27,7 @@ export default class HomeScreen extends React.Component {
           .then(user => {
             AsyncStorage.setItem('metric', JSON.stringify(user.metric));
             this.setState({user, tanks: user.tanks})
-          }).catch(console.error)
-
+          }).catch(console.error);
       });
   }
 
