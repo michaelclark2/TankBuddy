@@ -21,18 +21,12 @@ export default class AddFilterScreen extends React.Component {
   }
   componentDidMount() {
     this.getUserTanks();
-    this.getUserMeasurement();
   }
   getUserTanks = () => {
     getTanks()
       .then(usersTanks => {
         this.setState({usersTanks})
       });
-  }
-
-  getUserMeasurement = async () => {
-    let metric = await AsyncStorage.getItem('metric');
-    this.metric = JSON.parse(metric);
   }
 
   changeTank = (selectedTank) => {
@@ -97,12 +91,12 @@ export default class AddFilterScreen extends React.Component {
         <Card title="Selected Tank" wrapperStyle={styles.centered}>
           <Picker style={{width: '100%'}} selectedValue={selectedTank} onValueChange={(selectedTank) => this.changeTank(selectedTank)}>
             {
-              selectedTank ? (
+              selectedTank.id ? (
                 // map users tanks except selected one, then map null Picker.Item to selectedTank
                 usersTanks.map(tank => tank.id !== selectedTank.id ? <Picker.Item key={tank.id} value={tank} label={tank.name}/> : null)
                   .map(x => x === null ? <Picker.Item key={selectedTank.id} value={selectedTank} label={selectedTank.name}/> : x)
               ) : (
-                usersTanks.map(tank => <Picker.Item key={tank.id} value={tank} label={tank.name}/>)
+                [<Picker.Item key={0} value={{id: 0}} label={"Choose a tank"}/>, usersTanks.map(tank => <Picker.Item key={tank.id} value={tank} label={tank.name}/>)]
               )
             }
           </Picker>

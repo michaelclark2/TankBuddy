@@ -44,7 +44,10 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <NavigationEvents onDidFocus={this.refreshTanks}/>
-        <TankList navigation={this.props.navigation} tanks={tanks} />
+        <View style={{flex: 1, width: '100%'}}>
+          <Text h4 style={{textAlign: 'center'}}>My Tanks</Text>
+          <TankList navigation={this.props.navigation} tanks={tanks} />
+        </View>
         <Text>Username: {this.state.user.name}</Text>
         <Button title="Logout" onPress={logoutUser} />
         <Button title="Add New Tank" onPress={() => this.props.navigation.push('AddTank', {user: this.state.user})} />

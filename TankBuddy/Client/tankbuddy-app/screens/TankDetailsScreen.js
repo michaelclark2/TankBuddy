@@ -4,7 +4,6 @@ import {Text, Card, Button, Overlay} from 'react-native-elements';
 
 import FishTankLevels from '../components/FishTankLevels';
 import FilterList from '../components/FilterList';
-import InputField from '../components/InputField';
 import { deleteTank } from '../api/tanks';
 
 export default class TankDetailsScreen extends React.Component {

@@ -47,7 +47,17 @@ namespace TankBuddy.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteFilter(int id)
         {
-            throw new NotImplementedException();
+            bool success = _filters.DeleteFilter(id);
+
+            if (success)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+
         }
     }
 }
