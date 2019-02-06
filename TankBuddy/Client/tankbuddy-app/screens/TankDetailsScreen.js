@@ -1,6 +1,6 @@
 import React from 'react';
-import {StyleSheet, ScrollView, View} from 'react-native';
-import {Text, Card, Button, Overlay} from 'react-native-elements';
+import {StyleSheet, ScrollView, View, Alert} from 'react-native';
+import {Text, Card, Button} from 'react-native-elements';
 
 import FishTankLevels from '../components/FishTankLevels';
 import FilterList from '../components/FilterList';
@@ -14,11 +14,17 @@ export default class TankDetailsScreen extends React.Component {
 
   state = {
     tank: this.props.navigation.getParam('tank'),
-    isDeleting: false,
   }
 
-  tryDelete = () => {
-    this.setState({isDeleting: true});
+  tryDelete = (tank) => {
+    Alert.alert(
+      'Delete ' + tank.name + '?',
+      '',
+      [
+        {text: 'Cancel', style: 'cancel'},
+        {text: 'OK', onPress: () => this.removeTank()}
+      ]
+    )
   }
 
   removeTank = () => {
@@ -26,28 +32,15 @@ export default class TankDetailsScreen extends React.Component {
 
     deleteTank(tank.id)
       .then(() => {
-        this.closeModal();
         this.props.navigation.popToTop();
       })
       .catch(console.error);
   }
 
-  closeModal = () => {
-    this.setState({isDeleting: false});
-  }
   render () {
-    const {tank, isDeleting} = this.state;
+    const {tank} = this.state;
     return (
       <ScrollView style={{flex: 1}}>
-        <Overlay isVisible={isDeleting} height="auto" onBackdropPress={this.closeModal}>
-          <View>
-            <Text h4 style={{textAlign: 'center'}}>Delete {tank.name}?</Text>
-            <View style={{...styles.modBtns, justifyContent: 'space-around'}}>
-              <Button style={styles.btn} title="Yes" onPress={this.removeTank}/>
-              <Button style={styles.btn} title="No" onPress={this.closeModal}/>
-            </View>
-          </View>
-        </Overlay>
         <Card title="Fish">
           <FishTankLevels fish={tank.fish}/>
         </Card>
@@ -71,7 +64,7 @@ export default class TankDetailsScreen extends React.Component {
         </Card>
         <View style={styles.modBtns}>
           <View style={styles.btn}>
-            <Button style={{...styles.btn, ...styles.delBtn}} title="Delete" onPress={this.tryDelete} />
+            <Button style={{...styles.btn, ...styles.delBtn}} title="Delete" onPress={() => this.tryDelete(tank)} />
           </View>
         </View>
         <Card title="Warnings">
