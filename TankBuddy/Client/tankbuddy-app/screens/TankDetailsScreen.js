@@ -68,6 +68,7 @@ export default class TankDetailsScreen extends React.Component {
           </View>
         </View>
         <Card title="Warnings">
+          {tank.warnings.map(x => <Text>{x.message}</Text>)}
         </Card>
       </ScrollView>
     )
