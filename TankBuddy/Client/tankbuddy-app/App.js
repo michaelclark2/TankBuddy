@@ -10,13 +10,15 @@ import AddTankScreen from './screens/AddTankScreen';
 import AddFilterScreen from './screens/AddFilterScreen';
 import AddFishScreen from './screens/AddFishScreen';
 import TankDetailsScreen from './screens/TankDetailsScreen';
+import MyTanksScreen from './screens/MyTanksScreen';
 
 const AppStack = createStackNavigator({
   Home: HomeScreen,
   AddTank: AddTankScreen,
   AddFilter: AddFilterScreen,
   AddFish: AddFishScreen,
-  TankDetails: TankDetailsScreen
+  TankDetails: TankDetailsScreen,
+  MyTanks: MyTanksScreen
 },
 {
   initialRouteName: "Home",
@@ -48,12 +50,33 @@ const AppNav = createAppContainer(createSwitchNavigator(
 
 const theme = {
   Card: {
+    containerStyle: {
+    },
     titleStyle: {
       marginBottom: 0
     },
     dividerStyle: {
       display: 'none'
     }
+  },
+  ListItem: {
+    containerStyle: {
+    }
+  },
+  Button: {
+    buttonStyle: {
+
+    }
+  },
+  SquareButton: {
+    buttonStyle: {
+      margin: 16,
+      width: 96,
+      height: 96,
+      flexDirection: 'column',
+      alignItems: 'center',
+      elevation: 2,
+    },
   }
 }
 
