@@ -25,7 +25,6 @@ export default class FilterList extends React.Component {
       .then(() => {
         let filters = [...this.state.filters];
         filters = filters.filter(x => x.id !== filter.id);
-        console.log(filter.id, filters);
         this.setState({filters});
       });
   }

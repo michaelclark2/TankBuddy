@@ -58,7 +58,6 @@ export default class SearchSpecies extends React.Component {
     const {searchTerms, searchResults} = this.state;
     return (
       <View style={{flex: 1}}>
-        <Text h4 style={{margin: 8}}>Search for species</Text>
 
           <SearchBar lightTheme value={searchTerms} onChangeText={this.changeTerms} showLoading={this.state.isLoading} />
           {
