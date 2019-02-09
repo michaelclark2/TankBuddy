@@ -1,17 +1,14 @@
 import React from 'react';
-import { View, StyleSheet, AsyncStorage, StatusBar } from 'react-native';
-import {NavigationEvents} from 'react-navigation';
+import { View, StyleSheet, AsyncStorage } from 'react-native';
 import {Button, Text} from 'react-native-elements';
 
 import {logoutUser} from '../api/firebase';
 import {authenticate} from '../api/auth';
-import TankList from '../components/TankList';
-import { getTanks } from '../api/tanks';
+import SquareButton from '../components/SquareButton';
 
 export default class HomeScreen extends React.Component {
   state = {
     user: {},
-    tanks: [],
   }
   static navigationOptions = {
     title: "TankBuddy"
@@ -26,33 +23,28 @@ export default class HomeScreen extends React.Component {
         authenticate(token)
           .then(user => {
             AsyncStorage.setItem('metric', JSON.stringify(user.metric));
-            this.setState({user, tanks: user.tanks})
+            this.setState({user})
           }).catch(console.error);
       });
   }
 
-  refreshTanks = () => {
-    const {user} = {...this.state};
-    getTanks()
-      .then(tanks => {
-        this.setState({tanks});
-      })
-  }
 
   render () {
-    const {user, tanks} = this.state;
+    const {user} = this.state;
     return (
       <View style={styles.container}>
-        <NavigationEvents onDidFocus={this.refreshTanks}/>
-        <View style={{flex: 1, width: '100%'}}>
-          <Text h4 style={{textAlign: 'center'}}>My Tanks</Text>
-          <TankList navigation={this.props.navigation} tanks={tanks} />
+        <View>
+          <Text h3>Welcome {user.name}!</Text>
         </View>
-        <Text>Username: {this.state.user.name}</Text>
-        <Button title="Logout" onPress={logoutUser} />
-        <Button title="Add New Tank" onPress={() => this.props.navigation.push('AddTank', {user: this.state.user})} />
-        <Button title="Add New Filter" onPress={() => this.props.navigation.push('AddFilter', {user: this.state.user})} />
-        <Button title="Add New Fish" onPress={() => this.props.navigation.push('AddFish')} />
+        <View style={styles.buttons}>
+          <SquareButton icon={{name: 'cube', type: 'material-community', size: 42, color: 'white'}} title="My Tanks" onPress={() => this.props.navigation.push('MyTanks')} />
+          <SquareButton icon={{name: 'fish', type: 'material-community', size: 42, color: 'white'}} title="My Fish" onPress={() => this.props.navigation.push('MyFish')} />
+          <SquareButton icon={{name: 'search', size: 42, color: 'white'}} title="Species" onPress={() => this.props.navigation.push('SearchFish')} />
+          <SquareButton icon={{name: 'cube-outline', type: 'material-community', size: 42, color: 'white'}} title="Add Tank" onPress={() => this.props.navigation.push('AddTank', {user: this.state.user})} />
+          <SquareButton icon={{name: 'plus-circle-outline', type: 'material-community', size: 42, color: 'white'}} title="Add Fish" onPress={() => this.props.navigation.push('AddFish')} />
+          <SquareButton icon={{name: 'water-off', type: 'material-community', size: 42, color: 'white'}} title="Add Filter" onPress={() => this.props.navigation.push('AddFilter')} />
+
+        </View>
       </View>
     )
   }
@@ -61,8 +53,13 @@ export default class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
+  buttons: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    flex: 1
+  }
 });
