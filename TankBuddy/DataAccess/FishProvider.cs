@@ -24,5 +24,14 @@ namespace TankBuddy.DataAccess
                 return db.Execute(sql, fish) == 1;
             }
         }
+
+        public bool RemoveFish(int id)
+        {
+            using (var db = _db.GetConnection())
+            {
+                string sql = "DELETE FROM Fish WHERE Id = @id";
+                return db.Execute(sql, new { id }) == 1;
+            }
+        }
     }
 }

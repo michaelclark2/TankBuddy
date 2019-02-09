@@ -35,7 +35,23 @@ namespace TankBuddy.DataAccess
 
                 foreach (var tank in tanks)
                 {
-                    string fishSql = "SELECT * FROM TankBuddy.dbo.Fish t JOIN Species.dbo.Fish s ON t.SpeciesId = s.Id WHERE TankId = @id";
+                    string fishSql = @"SELECT f.*, 
+	                                    s.CommonName,
+	                                    s.ScientificName,
+	                                    s.Family, s.MaxSize,
+	                                    s.pHMin,
+	                                    s.pHMax,
+	                                    s.dHMin,
+	                                    s.dHMax,
+	                                    s.TempMin,
+	                                    s.TempMax,
+	                                    s.Reproduction,
+	                                    s.TemperamentSelf,
+	                                    s.TemperamentOthers,
+	                                    s.TankLevel
+                                    FROM TankBuddy.dbo.Fish f 
+	                                    JOIN Species.dbo.Fish s ON f.SpeciesId = s.Id 
+                                    WHERE TankId = @id";
                     tank.Fish = db.Query<Fish>(fishSql, new { tank.Id }).ToList();
 
                     string filterSql = "SELECT * FROM Filter WHERE TankId = @id";

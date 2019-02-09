@@ -9,7 +9,6 @@ import SquareButton from '../components/SquareButton';
 export default class HomeScreen extends React.Component {
   state = {
     user: {},
-    tanks: [],
   }
   static navigationOptions = {
     title: "TankBuddy"
@@ -24,7 +23,7 @@ export default class HomeScreen extends React.Component {
         authenticate(token)
           .then(user => {
             AsyncStorage.setItem('metric', JSON.stringify(user.metric));
-            this.setState({user, tanks: user.tanks})
+            this.setState({user})
           }).catch(console.error);
       });
   }
@@ -40,10 +39,10 @@ export default class HomeScreen extends React.Component {
         <View style={styles.buttons}>
           <SquareButton icon={{name: 'cube', type: 'material-community', size: 42, color: 'white'}} title="My Tanks" onPress={() => this.props.navigation.push('MyTanks')} />
           <SquareButton icon={{name: 'fish', type: 'material-community', size: 42, color: 'white'}} title="My Fish" onPress={() => this.props.navigation.push('MyFish')} />
-          <SquareButton icon={{name: 'water-off', type: 'material-community', size: 42, color: 'white'}} title="My Filters" onPress={() => this.props.navigation.push('MyFilters')} />
+          <SquareButton icon={{name: 'search', size: 42, color: 'white'}} title="Species" onPress={() => this.props.navigation.push('SearchFish')} />
           <SquareButton icon={{name: 'cube-outline', type: 'material-community', size: 42, color: 'white'}} title="Add Tank" onPress={() => this.props.navigation.push('AddTank', {user: this.state.user})} />
           <SquareButton icon={{name: 'plus-circle-outline', type: 'material-community', size: 42, color: 'white'}} title="Add Fish" onPress={() => this.props.navigation.push('AddFish')} />
-          <SquareButton icon={{name: 'search', size: 42, color: 'white'}} title="Species" onPress={() => this.props.navigation.push('SearchFish')} />
+          <SquareButton icon={{name: 'water-off', type: 'material-community', size: 42, color: 'white'}} title="Add Filter" onPress={() => this.props.navigation.push('AddFilter')} />
 
         </View>
       </View>
