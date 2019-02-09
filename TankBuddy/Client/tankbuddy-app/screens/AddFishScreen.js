@@ -78,6 +78,7 @@ export default class AddFishScreen extends React.Component {
     return (
       <ScrollView style={{flex: 1}}>
         <Overlay isVisible={speciesVisible} onBackdropPress={() => this.setState({speciesVisible: false})}>
+          <Text h4 style={{margin: 8, textAlign: 'center'}}>Search for species</Text>
           <SearchSpecies selectSpecies={this.selectSpecies}/>
         </Overlay>
         <Card title="Name" wrapperStyle={styles.centered}>
@@ -112,17 +113,6 @@ export default class AddFishScreen extends React.Component {
           </Picker>
         </Card>
         <Card title="Warnings">
-            <Text>Warning</Text>
-            <Text>Warning</Text>
-            <Text>Warning</Text>
-            <Text>Warning</Text>
-            <Text>Warning</Text>
-            <Text>Warning</Text>
-            <Text>Warning</Text>
-            <Text>Warning</Text>
-            <Text>Warning</Text>
-            <Text>Warning</Text>
-            <Text>Warning</Text>
         </Card>
         {
           this.isValidFish() ? (

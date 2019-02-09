@@ -12,6 +12,8 @@ import AddFishScreen from './screens/AddFishScreen';
 import TankDetailsScreen from './screens/TankDetailsScreen';
 import MyTanksScreen from './screens/MyTanksScreen';
 import MyFishScreen from './screens/MyFishScreen';
+import SearchScreen from './screens/SearchScreen';
+import FishDetailsScreen from './screens/FishDetailsScreen';
 
 const AppStack = createStackNavigator({
   Home: HomeScreen,
@@ -20,7 +22,9 @@ const AppStack = createStackNavigator({
   AddFish: AddFishScreen,
   TankDetails: TankDetailsScreen,
   MyTanks: MyTanksScreen,
-  MyFish: MyFishScreen
+  MyFish: MyFishScreen,
+  SearchFish: SearchScreen,
+  FishDetails: FishDetailsScreen,
 },
 {
   initialRouteName: "Home",
