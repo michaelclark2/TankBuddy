@@ -27,12 +27,11 @@ export default class FishList extends React.Component {
   }
 
   removeFish = (fish) => {
-    deleteFish(fish.id)
+    const fishId = fish.id;
+    deleteFish(fishId)
       .then(() => {
-        let {fish} = {...this.state};
-        console.log(fish)
-        fish = fish.filter(x => x.id !== fish.id);
-        console.log(fish)
+        let fish = [...this.state.fish];
+        fish = fish.filter(x => x.id !== fishId);
         this.setState({fish});
       });
   }
