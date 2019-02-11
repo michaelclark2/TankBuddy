@@ -43,7 +43,9 @@ export default class HomeScreen extends React.Component {
           <SquareButton icon={{name: 'cube-outline', type: 'material-community', size: 42, color: 'white'}} title="Add Tank" onPress={() => this.props.navigation.push('AddTank', {user: this.state.user})} />
           <SquareButton icon={{name: 'plus-circle-outline', type: 'material-community', size: 42, color: 'white'}} title="Add Fish" onPress={() => this.props.navigation.push('AddFish')} />
           <SquareButton icon={{name: 'water-off', type: 'material-community', size: 42, color: 'white'}} title="Add Filter" onPress={() => this.props.navigation.push('AddFilter')} />
-
+        </View>
+        <View style={{justifyContent: 'flex-end'}}>
+          <Button title="Logout?" type="clear" onPress={() => logoutUser()} />
         </View>
       </View>
     )
