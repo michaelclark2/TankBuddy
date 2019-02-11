@@ -44,7 +44,7 @@ namespace TankBuddy.Models
 
                     if (pH < f.phMin)
                     {
-                        warnings.Add(new Warning { Fish = f, Message = $"The water conditions are too acidid for {f.Name}" });
+                        warnings.Add(new Warning { Fish = f, Message = $"The water conditions are too acidic for {f.Name}" });
                     }
 
                     if (Temp > f.TempMax)
@@ -70,18 +70,18 @@ namespace TankBuddy.Models
 
                     if (Fish.Any(fish => f.Sex != fish.Sex && f.Reproduction.Equals(fish.Reproduction) && f.ScientificName.Equals(fish.ScientificName)))
                     {
-                        warnings.Add(new Warning { Fish = f, Message = $"{f.Name} may reproduce." });
+                        warnings.Add(new Warning { Fish = f, Message = $"{f.Name} may reproduce" });
                     }
 
                     if (Fish.Any(fish => !f.TemperamentSelf.Equals("peaceful") && f.Family.Equals(fish.Family)))
                     {
 
                         if (Fish.Any(fish => f.TemperamentSelf.Equals("aggressive/territorial") && f.Family.Equals(fish.Family))
-                            || Fish.Any(fish => f.TemperamentSelf.Equals("peaceful to females") && (f.Sex && fish.Sex) && f.Family.Equals(fish.Family))
-                            || Fish.Any(fish => f.TemperamentSelf.Equals("peaceful to males") && (!f.Sex && fish.Sex) && f.Family.Equals(fish.Family))
+                            || Fish.Any(fish => f.TemperamentSelf.Equals("peaceful to females") && (!f.Sex && !fish.Sex) && f.Family.Equals(fish.Family))
+                            || Fish.Any(fish => f.TemperamentSelf.Equals("peaceful to males") && (f.Sex && fish.Sex) && f.Family.Equals(fish.Family))
                             )
                         {
-                            warnings.Add(new Warning { Fish = f, Message = $"{f.Name} might act aggressive." });
+                            warnings.Add(new Warning { Fish = f, Message = $"{f.Name} might act aggressive" });
                         }
 
                     }
