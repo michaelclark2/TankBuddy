@@ -48,7 +48,6 @@ export default class RegisterScreen extends React.Component {
 
   register = () => {
     const {user} = this.state;
-    console.log(user)
     registerUser(user)
       .then((u) => {
         user.uid = u.user.uid;

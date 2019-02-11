@@ -11,7 +11,6 @@ export default class FishDetailsScreen extends React.Component {
   }
   render () {
     const {fish} = this.state;
-    console.log(fish)
     return (
       <ScrollView>
         <Card title='Info'>
