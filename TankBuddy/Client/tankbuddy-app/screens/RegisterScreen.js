@@ -1,15 +1,14 @@
 import React from 'react';
 import {
   View,
-  Text,
-  Button,
   StyleSheet,
   KeyboardAvoidingView,
   TouchableOpacity
 } from 'react-native';
 
+import {Text, Button, Image} from 'react-native-elements';
+
 import {registerUser} from '../api/firebase';
-import BrandTitle from '../components/BrandTitle';
 import { addUser } from '../api/auth';
 import InputField from '../components/InputField';
 
@@ -49,7 +48,6 @@ export default class RegisterScreen extends React.Component {
 
   register = () => {
     const {user} = this.state;
-    console.log(user)
     registerUser(user)
       .then((u) => {
         user.uid = u.user.uid;
@@ -73,7 +71,9 @@ export default class RegisterScreen extends React.Component {
   render () {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-        <BrandTitle />
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <Image source={require('../assets/icon.png')} style={{width: 200, height: 200}}/>
+        </View>
         <View style={styles.registerForm}>
           { this.showError() }
           <InputField placeholder="Email" onChangeText={this.changeEmail} value={this.state.user.email} keyboardType="email-address"/>

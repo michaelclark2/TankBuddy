@@ -17,7 +17,6 @@ export default class AuthLoadingScreen extends React.Component {
       if (user) {
         user.getIdToken(false)
           .then(token => {
-            console.log(token)
             AsyncStorage.setItem('token', token)
               .then(() => {
                 this.props.navigation.navigate('App');
