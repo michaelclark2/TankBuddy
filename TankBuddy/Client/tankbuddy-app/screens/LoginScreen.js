@@ -1,15 +1,14 @@
 import React from 'react';
 import {
   View,
-  Text,
-  Button,
   StyleSheet,
   KeyboardAvoidingView,
   TouchableOpacity
 } from 'react-native';
 
+import {Text, Button, Image} from 'react-native-elements';
+
 import {loginUser} from '../api/firebase';
-import BrandTitle from '../components/BrandTitle';
 import InputField from '../components/InputField';
 
 export default class LoginScreen extends React.Component {
@@ -59,7 +58,9 @@ export default class LoginScreen extends React.Component {
   render () {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-        <BrandTitle />
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <Image source={require('../assets/icon.png')} style={{width: 200, height: 200}}/>
+        </View>
         <View style={styles.loginForm}>
           { this.showError() }
           <InputField placeholder="Email" onChangeText={this.changeEmail} value={this.state.user.email} keyboardType="email-address" />

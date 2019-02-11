@@ -63,7 +63,6 @@ export default class AddTankScreen extends React.Component {
 
   postTank = () => {
     const {tank} = this.state;
-    console.log(tank);
     postTank(tank)
       .then(newTank => {
         this.props.navigation.replace('AddFilter', {selectedTank: newTank});
