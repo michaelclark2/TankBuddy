@@ -5,6 +5,7 @@ import {Text, Card, Button} from 'react-native-elements';
 import FishTankLevels from '../components/FishTankLevels';
 import FilterList from '../components/FilterList';
 import { deleteTank } from '../api/tanks';
+import WarningMessage from '../components/WarningMessage';
 
 export default class TankDetailsScreen extends React.Component {
 
@@ -68,7 +69,7 @@ export default class TankDetailsScreen extends React.Component {
           </View>
         </View>
         <Card title="Warnings">
-          {tank.warnings.map(x => <Text>{x.message}</Text>)}
+          {tank.warnings.map((w, i) => <WarningMessage key={i} message={w.message} />)}
         </Card>
       </ScrollView>
     )

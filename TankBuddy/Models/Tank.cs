@@ -32,10 +32,6 @@ namespace TankBuddy.Models
             {
                 foreach (var f in Fish)
                 {
-                    if (f.MaxSize >= StockAvailable)
-                    {
-                        warnings.Add(new Warning { Fish = f, Message = $"{f.Name} does not have enough space." });
-                    }
 
                     if (pH > f.phMax)
                     {
@@ -54,7 +50,7 @@ namespace TankBuddy.Models
 
                     if (Temp < f.TempMin)
                     {
-                        warnings.Add(new Warning { Fish = f, Message = $"The temperature is too cold for {f.Name}" });
+                        warnings.Add(new Warning { Fish = f, Message = $"The temperature is too cool for {f.Name}" });
                     }
 
                     if (dH > f.dhMax)
@@ -73,6 +69,7 @@ namespace TankBuddy.Models
                         warnings.Add(new Warning { Fish = f, Message = $"{f.Name} may reproduce" });
                     }
 
+                    // check aggression for same family
                     if (Fish.Any(fish => !f.TemperamentSelf.Equals("peaceful") && f.Family.Equals(fish.Family)))
                     {
 
@@ -85,6 +82,28 @@ namespace TankBuddy.Models
                         }
 
                     }
+
+                    // check aggression for other species
+                    if (Fish.Any(fish => !f.TemperamentOthers.Equals("peaceful") && !fish.ScientificName.Equals(f.ScientificName)))
+                    {
+                        // aggressive to smaller
+                        var smallerFish = Fish.Where(fish => fish.MaxSize <= f.MaxSize / 2).ToList();
+
+                        if (smallerFish != null || smallerFish.Count > 0)
+                        {
+                            foreach (var smaller in smallerFish)
+                            {
+                                warnings.Add(new Warning() { Fish = f, Message = $"{f.Name} might act aggressive towards {smaller.Name}" });
+                            }
+                        }
+
+                        // aggressive/territorial
+                        if (f.TemperamentOthers.Equals("aggressive/territorial"))
+                        {
+                            warnings.Add(new Warning() { Fish = f, Message = $"{f.Name} might act aggressive" });
+                        }
+                    }
+
                 }
             }
 
