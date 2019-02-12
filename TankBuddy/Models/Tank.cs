@@ -22,6 +22,93 @@ namespace TankBuddy.Models
         public List<Fish> Fish { get; set; }
         public decimal StockCapacity => Math.Round(AdjustCapacity(Volume), 0);
         public decimal StockAvailable => Math.Round(StockCapacity - SumFishSize(Fish), 0);
+        public List<Warning> Warnings { get => CheckWarnings(); set { } }
+
+        private List<Warning> CheckWarnings()
+        {
+            var warnings = new List<Warning>();
+
+            if (Fish != null)
+            {
+                foreach (var f in Fish)
+                {
+
+                    if (pH > f.phMax)
+                    {
+                        warnings.Add(new Warning { Fish = f, Message = $"The water conditions are too basic for {f.Name}" });
+                    }
+
+                    if (pH < f.phMin)
+                    {
+                        warnings.Add(new Warning { Fish = f, Message = $"The water conditions are too acidic for {f.Name}" });
+                    }
+
+                    if (Temp > f.TempMax)
+                    {
+                        warnings.Add(new Warning { Fish = f, Message = $"The temperature is too warm for {f.Name}" });
+                    }
+
+                    if (Temp < f.TempMin)
+                    {
+                        warnings.Add(new Warning { Fish = f, Message = $"The temperature is too cool for {f.Name}" });
+                    }
+
+                    if (dH > f.dhMax)
+                    {
+                        warnings.Add(new Warning { Fish = f, Message = $"The water conditions are too hard for {f.Name}" });
+                    }
+
+                    if (dH < f.dhMin)
+                    {
+                        warnings.Add(new Warning { Fish = f, Message = $"The water conditions are too soft for {f.Name}" });
+                    }
+
+
+                    if (Fish.Any(fish => f.Sex != fish.Sex && f.Reproduction.Equals(fish.Reproduction) && f.ScientificName.Equals(fish.ScientificName)))
+                    {
+                        warnings.Add(new Warning { Fish = f, Message = $"{f.Name} may reproduce" });
+                    }
+
+                    // check aggression for same family
+                    if (Fish.Any(fish => !f.TemperamentSelf.Equals("peaceful") && f.Family.Equals(fish.Family)))
+                    {
+
+                        if (Fish.Any(fish => f.TemperamentSelf.Equals("aggressive/territorial") && f.Family.Equals(fish.Family))
+                            || Fish.Any(fish => f.TemperamentSelf.Equals("peaceful to females") && (!f.Sex && !fish.Sex) && f.Family.Equals(fish.Family))
+                            || Fish.Any(fish => f.TemperamentSelf.Equals("peaceful to males") && (f.Sex && fish.Sex) && f.Family.Equals(fish.Family))
+                            )
+                        {
+                            warnings.Add(new Warning { Fish = f, Message = $"{f.Name} might act aggressive" });
+                        }
+
+                    }
+
+                    // check aggression for other species
+                    if (Fish.Any(fish => !f.TemperamentOthers.Equals("peaceful") && !fish.ScientificName.Equals(f.ScientificName)))
+                    {
+                        // aggressive to smaller
+                        var smallerFish = Fish.Where(fish => fish.MaxSize <= f.MaxSize / 2).ToList();
+
+                        if (smallerFish != null || smallerFish.Count > 0)
+                        {
+                            foreach (var smaller in smallerFish)
+                            {
+                                warnings.Add(new Warning() { Fish = f, Message = $"{f.Name} might act aggressive towards {smaller.Name}" });
+                            }
+                        }
+
+                        // aggressive/territorial
+                        if (f.TemperamentOthers.Equals("aggressive/territorial"))
+                        {
+                            warnings.Add(new Warning() { Fish = f, Message = $"{f.Name} might act aggressive" });
+                        }
+                    }
+
+                }
+            }
+
+            return warnings;
+        }
 
         private decimal SumFishSize(IEnumerable<Fish> fish)
         {
@@ -74,6 +161,7 @@ namespace TankBuddy.Models
 
             return vol + (vol * ((decimal)percentage / 100));
         }
+
 
     }
 }
